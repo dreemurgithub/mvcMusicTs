@@ -1,4 +1,4 @@
-import { hashPassword } from "./helper";
+import { hashPassword } from "@/models/index.helper";
 import { checkSignin } from "./queryHelper";
 export const authSignIn = async ({
     username,
