@@ -1,21 +1,15 @@
 import express, { Request, Response, Application } from "express";
-// import { startSession } from "./config/postgres";
-// import {
-//   userPlaylist,
-//   songsinPlaylist,
-//   addSongToPlaylist,
-//   makeUserDir,
-//   makePlaylist,
-// } from "./model/helper/playlist";
-// import configApp from "./config";
-// import controller from "./controller";
-const app: Application = express();
-// app.use(configApp);
-// app.use(controller);
+import configApp from "./config";
+import expressRoute from "./routes/index.route";
+import { makeDataTables } from "./config/postgres";
 
+const app: Application = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(configApp)
+app.use(expressRoute)
 
 app.listen(PORT, async () => {
   console.log(`PORT ${PORT} is listening`);
-//   startSession();
+  makeDataTables()
 });
