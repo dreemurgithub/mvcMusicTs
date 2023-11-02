@@ -10,7 +10,8 @@
     "typeRoots": ["./src/typings", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
-      "@/*" :["./src/*"]
+      "@/*" :["./src/*"],
+      "@data/*" :["./data/*"]
     }
   },
   "include": ["src/**/*.ts"],
