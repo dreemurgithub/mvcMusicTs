@@ -1,5 +1,5 @@
 import express, { Request, Response, Application } from "express";
-import streamValidate from "@/validations/stream";
+import streamValidate from "@/validations/stream.validate";
 
 const streamMiddleware: Application = express();
 

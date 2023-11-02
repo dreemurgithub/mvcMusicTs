@@ -1,7 +1,7 @@
 import express, { Request, Response, Application } from "express";
 const authRoute: Application = express();
-import authController from "@/controllers/auth";
-import authMiddleware from "@/middlewares/auth";
+import authController from "@/controllers/auth.controller";
+import authMiddleware from "@/middlewares/auth.middleware";
 // should return {success: boolean, data? , message?}
 // authRoute.get('/auth',authMiddleware,authController)
 authRoute.post('/auth',authMiddleware,authController)

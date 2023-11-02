@@ -1,5 +1,5 @@
 import express, { Request, Response, Application } from "express";
-import musicInforValidate from "@/validations/musicInfor";
+import musicInforValidate from "@/validations/musicInfor.validate";
 
 const musicMiddleware: Application = express();
 

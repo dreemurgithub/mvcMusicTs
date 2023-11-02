@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { createHmac } from "crypto";
-import { regexPassword, regexUserName } from "@/validations/index.constants";
+import { regexPassword, regexUserName } from "@/validations/index.validate";
 import { pool } from "@/config/postgres";
 
 const key = `${process.env.PASSWORD_KEY}`;

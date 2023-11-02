@@ -1,5 +1,5 @@
 import express, { Request, Response, Application } from "express";
-import authValidate from "@/validations/auth";
+import authValidate from "@/validations/auth.validate";
 const authMiddleware: Application = express();
 
 authMiddleware.use(async(req: Request, res: Response ,next)=>{
