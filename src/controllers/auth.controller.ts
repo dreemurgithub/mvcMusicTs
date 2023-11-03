@@ -15,7 +15,7 @@ authController.use(async (req: Request, res: Response) => {
         req.session.userId = result.data.id;
         return res.status(201).send(result.data);
     }
-    else return res.status(400).send(result.message);
+    else return res.status(400).send({message: result.message});
   }
   //   if (req.method === "PUT") {
   //     const { username, password } = req.body;
@@ -28,7 +28,7 @@ authController.use(async (req: Request, res: Response) => {
       if (err) console.log(err);
     });
     res.clearCookie("connect.sid");
-    res.status(200).send("Successfully signing out");
+    res.status(200).send({message: "Successfully signing out"});
   }
 });
 

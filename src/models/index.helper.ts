@@ -38,7 +38,7 @@ const allMusicId = () => {
 export {hashPassword, allMusicName, idToMusic, allMusicId}
 // CREATE TABLE playlist (
 //     id SERIAL PRIMARY KEY,
-//     playlist VARCHAR(50),
+//     playlistName VARCHAR(50),
 //     userId INTEGER,
 //     songId VARCHAR(50)[]
 // ); // create array string postgres

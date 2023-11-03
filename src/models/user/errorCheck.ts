@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { regexPassword, regexUserName } from "@/validations/index.constants";
+import { regexPassword, regexUserName } from "@/validations/index.validate";
 import { pool } from "@/config/postgres";
 import { checkUsername } from "./queryHelper";
 
