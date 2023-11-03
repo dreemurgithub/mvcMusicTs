@@ -3,9 +3,9 @@ const musicInforRoute: Application = express();
 import musicMiddleware from "@/middlewares/musicInfor.middleware";
 import musicInforController from "@/controllers/musicInfor.controller";
 // should return {success: boolean, data? , message?}
-musicInforRoute.get('/user',musicMiddleware,musicInforController)
-musicInforRoute.post('/user',musicMiddleware,musicInforController)
-musicInforRoute.put('/user',musicMiddleware,musicInforController)
-musicInforRoute.delete('/user',musicMiddleware,musicInforController)
+musicInforRoute.get('/music',musicMiddleware,musicInforController)
+musicInforRoute.post('/music',musicMiddleware,musicInforController)
+musicInforRoute.put('/music',musicMiddleware,musicInforController)
+musicInforRoute.delete('/music',musicMiddleware,musicInforController)
 
 export default musicInforRoute
