@@ -1,11 +1,14 @@
 import express, { Request, Response, Application } from "express";
-import authValidate from "@/validations/auth.validate";
+import { regexPassword, regexUserName } from "@/validations/regex.validate";
 const authMiddleware: Application = express();
 
-authMiddleware.use(async(req: Request, res: Response ,next)=>{
-    if(req.method==='POST' && !req.session.userId) authMiddleware.use(authValidate)
-    if(req.method==='DELETE' && req.session.userId) return next()
-    res.status(400).send({message:'Bad Request'})
-})
+authMiddleware.use(async (req: Request, res: Response, next) => {
+  const { username, password } = req.body;
+  if (!username || !password)
+    return res.status(400).send({ message: "Bad Request" });
+  if (regexPassword.test(password) && regexUserName.test(username)) next();
+});
 
 export default authMiddleware;
+// type: [!password, !username ] for post signin '/auth'
+// type: !req.session.userId for delete signout '/auth'

@@ -1,4 +1,4 @@
-import { pool } from "@/config/postgres";
+import { pool } from "@/config/database/postgres";
 
 const addUserQuery = async ({
   name,
@@ -60,4 +60,4 @@ const editUserQuery = async ({
   return result;
 };
 
-export { addUserQuery, checkSignin,  checkUsername, editUserQuery };
+export { addUserQuery, checkSignin, checkUsername, editUserQuery };

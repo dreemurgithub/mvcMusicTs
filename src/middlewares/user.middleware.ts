@@ -1,5 +1,4 @@
 import express, { Request, Response, Application } from "express";
-import userValidate from "@/validations/user.validate";
 const userMiddleware: Application = express();
 
 userMiddleware.use(async(req: Request, res: Response ,next)=>{
@@ -8,3 +7,6 @@ userMiddleware.use(async(req: Request, res: Response ,next)=>{
 })
 
 export default userMiddleware;
+
+// type: [!password, !username, regex-password, regex-username] for post '/user'
+// type: [!password, !username, regex-password, regex-username] for put '/user'

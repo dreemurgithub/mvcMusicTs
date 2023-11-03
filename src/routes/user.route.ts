@@ -1,11 +1,10 @@
 import express, { Request, Response, Application } from "express";
 const userRoute: Application = express();
-import userController from "@/controllers/user/index.controller";
-import userMiddleware from "@/middlewares/user.middleware";
+import {userController,getController} from "@/controllers/user/index.controller";
 // should return {success: boolean, data? , message?}
-userRoute.get('/user',userMiddleware,userController)
-userRoute.post('/user',userMiddleware,userController)
-userRoute.put('/user',userMiddleware,userController)
-userRoute.delete('/user',userMiddleware,userController)
+userRoute.get("/user", getController);
+userRoute.post("/user", userController);
+userRoute.put("/user", userController);
+userRoute.delete("/user", userController);
 
-export default userRoute
+export default userRoute;

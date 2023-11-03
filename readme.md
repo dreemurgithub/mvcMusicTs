@@ -4,7 +4,7 @@
 - Compile/Check: Npm run build
 - Start the compiled file: NPM run start
 
-### Run docker
+### Run docker(make it with JWT, dont need refresh token for now)
 
 - npm run build: to compile before "sudo docker-compose up --build"
 - docker-compose up: Start both the app and postgres

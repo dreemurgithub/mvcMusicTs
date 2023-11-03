@@ -1,35 +1,35 @@
 import express, { Request, Response, Application } from "express";
-const authController: Application = express();
+import jwt from "jsonwebtoken";
 import { authSignIn } from "@/models/auth";
-authController.use(async (req: Request, res: Response) => {
-  //   if (req.method === "GET") {
-  //     const { username, password } = req.body;
-  //     const result = await authSignIn({ username, password });
-  //     if (result.success) return res.status(200).send(result.data);
-  //     else return res.status(400).send(result.message);
-  //   }
-  if (req.method === "POST") {
-    const { username, password } = req.body;
-    const result = await authSignIn({ username, password });
-    if (result.data) {
-        req.session.userId = result.data.id;
-        return res.status(201).send(result.data);
-    }
-    else return res.status(400).send({message: result.message});
-  }
-  //   if (req.method === "PUT") {
-  //     const { username, password } = req.body;
-  //     const result = await authSignIn({ username, password });
-  //     if (result.success) return res.status(201).send(result.data);
-  //     else return res.status(400).send(result.message);
-  //   }
-  if (req.method === "DELETE") {
-    req.session.destroy((err) => {
-      if (err) console.log(err);
-    });
-    res.clearCookie("connect.sid");
-    res.status(200).send({message: "Successfully signing out"});
-  }
+import dotenv from "dotenv";
+dotenv.config();
+const secretKey = `${process.env.PASSWORD_KEY}`;
+
+export const authControllerSignin: Application = express();
+export const authControllerSignOut: Application = express();
+authControllerSignin.use(async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+  const result = await authSignIn({ username, password });
+  if (result.data) {
+    // req.session.userId = result.data.id;
+    const newDate = new Date();
+    const userToken = jwt.sign(
+      {
+        userId: result.data.id,
+        iat: newDate.setDate(newDate.getDate() + 10),
+      },
+      secretKey,
+      { algorithm: "HS256" }
+    );
+
+    return res.status(201).send({ token: userToken });
+  } else return res.status(400).send({ message: result.message });
 });
 
-export default authController;
+authControllerSignOut.use(async (req: Request, res: Response) => {
+  req.session.destroy((err) => {
+    if (err) console.log(err);
+  });
+  res.clearCookie("connect.sid");
+  res.status(200).send({ message: "Successfully signing out" });
+});

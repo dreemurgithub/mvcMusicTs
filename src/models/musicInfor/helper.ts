@@ -1,5 +1,5 @@
 import * as yt from "youtube-search-without-api-key";
-import { regex5minLess } from "@/validations/index.validate";
+import { regex5minLess } from "@/validations/regex.validate";
 /**
  * Given a search query, searching on youtube
  * @param {string} search value (string or videoId).

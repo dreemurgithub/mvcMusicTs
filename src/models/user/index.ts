@@ -1,7 +1,12 @@
 import { hashPassword } from "@/models/index.helper";
-import { errorUserCheck,checkUsernameExist } from "./errorCheck";
-import { addUserQuery, editUserQuery } from "./queryHelper";
-const makeUser = async ({
+import { errorUserCheck, checkUsernameExist } from "./errorCheck";
+import {
+  addUserHelper,
+  deleteUserHelper,
+  editUserHelper,
+  readUserHelper,
+} from "./helper";
+export const makeUser = async ({
   password,
   username,
   name,
@@ -16,15 +21,15 @@ const makeUser = async ({
   if (!checkUsernameErr.success) return checkUsernameErr;
 
   const passwordSecure = hashPassword(password);
-  const result = await addUserQuery({
+  const result = await addUserHelper({
     name,
     password: passwordSecure,
     username,
   });
-  if (result.rowCount)
+  if (result.success)
     return {
       success: true,
-      data: { name, username },
+      data: result.data,
       message: "",
     };
 
@@ -34,7 +39,7 @@ const makeUser = async ({
     data: null,
   };
 };
-const editUser = async ({
+export const editUser = async ({
   password,
   username,
   id,
@@ -50,20 +55,15 @@ const editUser = async ({
 
   const passwordSecure = hashPassword(password);
 
-  const result = await editUserQuery({
+  const result = await editUserHelper({
     name,
     password: passwordSecure,
-    id,
     username,
   });
-  if (result.rowCount)
+  if (result.success)
     return {
       success: true,
-      data: {
-        name,
-        username,
-        id,
-      },
+      data: result.data,
       message: "",
     };
   return {
@@ -73,4 +73,7 @@ const editUser = async ({
   };
 };
 
-export { editUser, makeUser };
+export const deleteUser = async (id: number) => {
+  const result = await deleteUserHelper(id);
+  return result;
+};

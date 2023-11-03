@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { regexPassword, regexUserName } from "@/validations/index.validate";
-import { pool } from "@/config/postgres";
-import { checkUsername } from "./queryHelper";
+import { regexPassword, regexUserName } from "@/validations/regex.validate";
+import { checkUsername } from "./helper";
 
 const errorUserCheck = async ({
   name,
@@ -23,7 +22,7 @@ const errorUserCheck = async ({
   if (!regexUserName.test(username))
     return {
       success: false,
-      message: "This is not an name",
+      message: "Username too short",
     };
   if (!regexPassword.test(password))
     return {
@@ -35,8 +34,8 @@ const errorUserCheck = async ({
 };
 
 const checkUsernameExist = async (username: string) => {
-  const count = await checkUsername(username)
-  if (count) return { success: true, message: "", data: null };
+  const check = await checkUsername(username);
+  if (check) return { success: true, message: "", data: null };
   return {
     success: false,
     message: "This username is already taken",
