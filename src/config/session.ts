@@ -1,7 +1,7 @@
 const localDev = process.env.ENVIROMENT === "DEV";
 import express, {  Application } from "express";
 import session from "express-session";
-import { pool } from "./postgres";
+import { pool } from "./database/postgres";
 import connectPgSimple from "connect-pg-simple"; 
 
 const pgSession = connectPgSimple(session)

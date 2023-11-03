@@ -1,4 +1,4 @@
-import { pool } from "@/config/postgres";
+import { pool } from "@/config/database/postgres";
 export const checkSignin = async ({
     username,
     password,

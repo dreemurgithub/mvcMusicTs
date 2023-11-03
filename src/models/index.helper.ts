@@ -4,7 +4,6 @@ import fs from 'fs'
 import path from 'path'
 import { createHmac } from "crypto";
 import { regexPassword, regexUserName } from "@/validations/index.validate";
-import { pool } from "@/config/postgres";
 
 const key = `${process.env.PASSWORD_KEY}`;
 const hashPassword = (input: string) => {

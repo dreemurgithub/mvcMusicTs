@@ -1,7 +1,7 @@
 import express, { Request, Response, Application } from "express";
 const musicInforRoute: Application = express();
 import musicMiddleware from "@/middlewares/musicInfor.middleware";
-import musicInforController from "@/controllers/musicInfor.controller";
+import musicInforController from "@/controllers/musicInfor/index.controller";
 // should return {success: boolean, data? , message?}
 musicInforRoute.get('/music',musicMiddleware,musicInforController)
 musicInforRoute.post('/music',musicMiddleware,musicInforController)

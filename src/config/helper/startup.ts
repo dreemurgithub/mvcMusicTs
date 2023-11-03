@@ -1,25 +1,10 @@
-import { pool } from "../postgres";
-const makeDataTables = async () => {
+import { pool } from "@/config/database/postgres";
+import { dataSource } from "@/config/database/typeorm";
+import { playlistRepository } from "@/config/database/typeorm";
+
+export const makeSessionTables = async () => {
   console.log("Create tables if there is none");
   const client = await pool.connect();
-
-  // user exists?
-  const queryUser = `SELECT EXISTS (
-      SELECT 1
-      FROM pg_tables
-      WHERE tablename = 'users'
-      );`;
-  const usersExist = await pool.query(queryUser);
-  if (!usersExist.rows[0].exists) {
-    const createUserTable = `CREATE TABLE users (
-        id SERIAL PRIMARY KEY,
-        username VARCHAR(32) NOT NULL,
-        name VARCHAR(32) NOT NULL,
-        password VARCHAR(64) NOT NULL
-      );
-      `; // 64 is the size of hash string
-    await pool.query(createUserTable);
-  }
 
   // users_session exists?
   const querySession = `SELECT EXISTS (
@@ -38,23 +23,20 @@ const makeDataTables = async () => {
     await pool.query(createSessionTable);
     await pool.query(addConstrant);
   }
-  const queryPlaylist = `SELECT EXISTS (
-      SELECT 1
-      FROM pg_tables
-      WHERE tablename = 'playlists'
-      );`;
-  const playlistExist = await pool.query(queryPlaylist);
-  if(!playlistExist.rows[0].exists){
-    const createPlaylistTable = `CREATE TABLE playlists (
-        id SERIAL PRIMARY KEY,
-        playlistName VARCHAR(50),
-        userId INTEGER,
-        songId VARCHAR(50)[]);`;
-      await pool.query(createPlaylistTable)
-  }
-
-
   client.release();
 };
-
-export { makeDataTables };
+export const createTableConnect = () => {
+  dataSource
+    .initialize()
+    .then(async() => {
+      console.log("Connected -duh");
+      // await playlistRepository.save({
+      //   playlistName: "aaaccc",
+      //   userId: 1,
+      //   songId: ["a", "b"],
+      // });
+    })
+    .catch(function (error) {
+      console.log("Error: ", error);
+    });
+};
