@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
+import fs from 'fs'
+import path from 'path'
 import { createHmac } from "crypto";
 import { regexPassword, regexUserName } from "@/validations/index.validate";
 import { pool } from "@/config/postgres";
@@ -17,12 +19,12 @@ const allMusicId = () => {
   };
   
   const idToMusic = (id: String) => {
-    // const file = path.join(
-    //   __dirname,
-    //   `../../data/${id}`
-    // );
-    // const fileList = fs.readdirSync(file);
-    // return path.join(file, fileList[0]);
+    const file = path.join(
+      __dirname,
+      `../../data/${id}`
+    );
+    const fileList = fs.readdirSync(file);
+    return path.join(file, fileList[0]);
   };
   
   const allMusicName = () => {
