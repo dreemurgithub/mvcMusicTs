@@ -10,5 +10,3 @@ authMiddleware.use(async (req: Request, res: Response, next) => {
 });
 
 export default authMiddleware;
-// type: [!password, !username ] for post signin '/auth'
-// type: !req.session.userId for delete signout '/auth'

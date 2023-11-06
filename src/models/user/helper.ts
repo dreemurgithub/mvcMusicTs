@@ -44,12 +44,14 @@ export const editUserHelper = async ({
   username,
   password,
   name,
+  id
 }: {
   username: string;
   password: string;
   name: string;
+  id: number
 }) => {
-  const updateUser = await userRepository.findOne({ where: { username } });
+  const updateUser = await userRepository.findOne({ where: { username , id } });
   if (!updateUser) return { success: false, message: "Bad Request" };
   updateUser.password = password;
   updateUser.name = name;

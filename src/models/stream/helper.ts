@@ -1,5 +1,5 @@
 import * as fs from "fs/promises";
-import { idToMusic } from "../index.helper";
+import { idToMusic } from "@/config/helper/musicFolder";
 export const streamMusic = async (id: string) => {
   const data = await fs.readFile(idToMusic(id));
   return data;

@@ -1,4 +1,4 @@
-import { hashPassword } from "@/models/index.helper";
+import { hashPassword } from "@/config/helper/hashPassword";
 import { errorUserCheck, checkUsernameExist } from "./errorCheck";
 import {
   addUserHelper,
@@ -15,11 +15,6 @@ export const makeUser = async ({
   username: string;
   name: string;
 }) => {
-  const checkError = await errorUserCheck({ name, password, username });
-  if (!checkError.success) return checkError;
-  const checkUsernameErr = await checkUsernameExist(username);
-  if (!checkUsernameErr.success) return checkUsernameErr;
-
   const passwordSecure = hashPassword(password);
   const result = await addUserHelper({
     name,
@@ -50,15 +45,13 @@ export const editUser = async ({
   id: number;
   name: string;
 }) => {
-  const checkError = await errorUserCheck({ name, password, username });
-  if (!checkError.success) return checkError;
-
   const passwordSecure = hashPassword(password);
 
   const result = await editUserHelper({
     name,
     password: passwordSecure,
     username,
+    id
   });
   if (result.success)
     return {

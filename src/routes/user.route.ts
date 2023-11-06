@@ -1,10 +1,12 @@
 import express, { Request, Response, Application } from "express";
+import {userNewController,userEditController,getController} from "@/controllers/user/index.controller";
+import {userMiddlewareNew, userMiddlewareUpdate} from "@/middlewares/user.middleware";
+import priviledgeMiddleware from "@/middlewares";
 const userRoute: Application = express();
-import {userController,getController} from "@/controllers/user/index.controller";
+
 // should return {success: boolean, data? , message?}
-userRoute.get("/user", getController);
-userRoute.post("/user", userController);
-userRoute.put("/user", userController);
-userRoute.delete("/user", userController);
+userRoute.post("/user", userNewController);
+userRoute.put("/user", priviledgeMiddleware,userMiddlewareNew ,userEditController);
+userRoute.delete("/user",priviledgeMiddleware ,userMiddlewareUpdate,userNewController);
 
 export default userRoute;

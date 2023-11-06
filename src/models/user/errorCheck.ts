@@ -7,12 +7,10 @@ const errorUserCheck = async ({
   name,
   password,
   username,
-  id,
 }: {
   name: string;
   password: string;
   username: string;
-  id?: number;
 }) => {
   if (!name || !username || !password)
     return {

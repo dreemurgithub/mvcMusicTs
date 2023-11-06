@@ -1,5 +1,4 @@
 import express, { Request, Response, Application } from "express";
-import jwt from "jsonwebtoken";
 import { authSignIn } from "@/models/auth";
 import dotenv from "dotenv";
 dotenv.config();

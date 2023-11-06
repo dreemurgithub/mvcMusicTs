@@ -1,6 +1,5 @@
 import express, { Application } from "express";
 const authRoute: Application = express();
-import priviledgeMiddleware from "@/middlewares";
 import {
   authControllerSignin,
   authControllerSignOut,
@@ -10,11 +9,10 @@ import authMiddleware from "@/middlewares/auth.middleware";
 // authRoute.get("/auth", authMiddleware);
 authRoute.post(
   "/auth",
-  priviledgeMiddleware,
   authMiddleware,
   authControllerSignin
 );
 // authRoute.put("/auth", priviledgeMiddleware);
-authRoute.delete("/auth", priviledgeMiddleware, authControllerSignOut);
+// authRoute.delete("/auth",  authControllerSignOut);
 
 export default authRoute;

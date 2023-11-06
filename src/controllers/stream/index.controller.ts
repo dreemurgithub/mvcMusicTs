@@ -2,7 +2,8 @@ import express, { Request, Response, Application } from "express";
 const streamController: Application = express();
 import { streamMusic } from "@/models/stream/helper";
 streamController.use(async(req: Request, res: Response )=>{
-    const data = await streamMusic('Zasx9hjo4WY')
+    const listen = req.query.listen as string
+    const data = await streamMusic(listen)
     return res.send(data)
 })
 
