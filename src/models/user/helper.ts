@@ -34,10 +34,10 @@ export const addUserHelper = async ({
   return { success: true, data: newUser };
 };
 
-export const checkUsername = async (username: string) => {
+export const checkUsernameExist = async (username: string) => {
   const allUser =  await userRepository.find()
   const userExist = await userRepository.findOne({where: {username}})
-  return !userExist && true;
+  return userExist && true;
 };
 
 export const editUserHelper = async ({

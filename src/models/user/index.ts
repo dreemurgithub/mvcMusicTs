@@ -1,5 +1,4 @@
 import { hashPassword } from "@/config/helper/hashPassword";
-import { errorUserCheck, checkUsernameExist } from "./errorCheck";
 import {
   addUserHelper,
   deleteUserHelper,
@@ -30,7 +29,7 @@ export const makeUser = async ({
 
   return {
     success: false,
-    message: "Something wrong",
+    message: "Something wrong -test",
     data: null,
   };
 };

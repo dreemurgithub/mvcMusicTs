@@ -4,7 +4,10 @@ import { authSignIn } from "@/models/auth";
 import dotenv from "dotenv";
 dotenv.config();
 const secretKey = `${process.env.PASSWORD_KEY}`;
-
+export const authControllerGet: Application = express();
+authControllerGet.use(async (req: Request, res: Response) => {
+  res.send(req.body)
+})
 export const authControllerSignin: Application = express();
 export const authControllerSignOut: Application = express();
 authControllerSignin.use(async (req: Request, res: Response) => {

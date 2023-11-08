@@ -1,18 +1,20 @@
 import express, { Application } from "express";
 const authRoute: Application = express();
-import {
-  authControllerSignin,
-  authControllerSignOut,
-} from "@/controllers/auth/index.controller";
-import authMiddleware from "@/middlewares/auth.middleware";
-// should return {success: boolean, data? , message?}
-// authRoute.get("/auth", authMiddleware);
+import { authControllerSignin, authControllerGet } from "@/controllers/auth/index.controller";
+import { schemaBodys } from "@/validations/validateGeneral";
+import { validateBody } from "@/middlewares/validateBody";
+import { validateUsernameExist } from "@/middlewares/custom.middleware";
+import { userNewController } from "@/controllers/user/index.controller";
+
+authRoute.post("/auth/test", authControllerGet);
+
+authRoute.post("/auth",validateBody(schemaBodys.usernameAndPassword), authControllerSignin);
 authRoute.post(
-  "/auth",
-  authMiddleware,
-  authControllerSignin
+  "/auth/new",
+  validateBody(schemaBodys.nameAndPassword),
+  validateBody(schemaBodys.usernameCheck),
+  validateUsernameExist,
+  userNewController
 );
-// authRoute.put("/auth", priviledgeMiddleware);
-// authRoute.delete("/auth",  authControllerSignOut);
 
 export default authRoute;
