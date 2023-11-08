@@ -1,7 +1,7 @@
 import express, { Request, Response, Application } from "express";
 import { musicYoutubeSearch } from "@/models/musicInfor";
 
-const musicInforController: Application = express();
+export const musicInforController: Application = express();
 
 musicInforController.use(async (req: Request, res: Response) => {
   const search = req.query.search as string;
@@ -11,5 +11,3 @@ musicInforController.use(async (req: Request, res: Response) => {
       else return res.status(400).send({message: result.message});
   }
 });
-
-export default musicInforController;
