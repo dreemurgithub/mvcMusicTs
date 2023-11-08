@@ -18,6 +18,8 @@ services:
   app:
     build: .
     image: node
+    expose:
+      - "3000"
     container_name: node_on_postgres_con
     restart: unless-stopped
     volumes:

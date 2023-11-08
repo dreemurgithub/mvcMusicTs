@@ -1,11 +1,11 @@
 import express, { Request, Response, Application } from "express";
 const musicInforRoute: Application = express();
-import musicMiddleware from "@/middlewares/musicInfor.middleware";
-import musicInforController from "@/controllers/musicInfor.controller";
+import {requireAuth} from "@/middlewares/authentication";
+import musicInforController from "@/controllers/musicInfor/index.controller";
 // should return {success: boolean, data? , message?}
-musicInforRoute.get('/music',musicMiddleware,musicInforController)
-musicInforRoute.post('/music',musicMiddleware,musicInforController)
-musicInforRoute.put('/music',musicMiddleware,musicInforController)
-musicInforRoute.delete('/music',musicMiddleware,musicInforController)
+musicInforRoute.get("/music",requireAuth , musicInforController);
+// musicInforRoute.post("/music",requireAuth , musicInforController);
+// musicInforRoute.put("/music",requireAuth , musicInforController);
+// musicInforRoute.delete("/music",requireAuth , musicInforController);
 
-export default musicInforRoute
+export default musicInforRoute;

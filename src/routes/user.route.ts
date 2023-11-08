@@ -1,11 +1,29 @@
 import express, { Request, Response, Application } from "express";
+import {
+  userNewController,
+  userEditController,
+  getController,
+} from "@/controllers/user/index.controller";
+import { authUpdate } from "@/middlewares/authentication";
 const userRoute: Application = express();
-import userController from "@/controllers/user.controller";
-import userMiddleware from "@/middlewares/user.middleware";
-// should return {success: boolean, data? , message?}
-userRoute.get('/user',userMiddleware,userController)
-userRoute.post('/user',userMiddleware,userController)
-userRoute.put('/user',userMiddleware,userController)
-userRoute.delete('/user',userMiddleware,userController)
+import { schemaBodys } from "@/validations/validateGeneral";
+import { validateBody } from "@/middlewares/validateBody";
+import { validateUsernameExist } from "@/middlewares/custom.middleware";
 
-export default userRoute
+// should return {success: boolean, data? , message?}
+// userRoute.post(
+//   "/user",
+//   validateBody(schemaBodys.nameAndPassword),
+//   validateBody(schemaBodys.usernameCheck),
+//   validateUsernameExist,
+//   userNewController
+// );
+userRoute.put(
+  "/user",
+  validateBody(schemaBodys.nameAndPassword),
+  authUpdate,
+  userEditController
+);
+userRoute.delete("/user", authUpdate, userNewController);
+
+export default userRoute;

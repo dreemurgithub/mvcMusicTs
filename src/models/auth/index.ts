@@ -1,5 +1,5 @@
-import { hashPassword } from "@/models/index.helper";
-import { checkSignin } from "./queryHelper";
+import { hashPassword } from "@/config/helper/hashPassword";
+import { readUserHelper } from "./helper";
 export const authSignIn = async ({
     username,
     password,
@@ -8,19 +8,6 @@ export const authSignIn = async ({
     password: string;
   }) => {
     const passwordSecure = hashPassword(password)
-    const result = await checkSignin({ username, password: passwordSecure });
-    if (result.rowCount)
-      return {
-        success: true,
-        data: {
-          username,
-          id: Number(result.rows[0].id),
-        },
-        message: "",
-      };
-    return {
-      success: false,
-      message: "Wrong username or password",
-      data: null,
-    };
+    const result = await readUserHelper({ username, password: passwordSecure });
+    return result;
   };
