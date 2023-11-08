@@ -1,18 +1,18 @@
 import Joi from "joi";
 import { regexPassword } from "./regex.validate";
-
+import { USERNAME_VALIDATE } from "@/config/helper/constant";
 
 export const schemaBodys = {
   usernameAndPassword: Joi.object().keys({
-    username: Joi.string().max(32).min(5).required(), // okay
+    username: Joi.string().max(USERNAME_VALIDATE.max).min(USERNAME_VALIDATE.min).required(), // okay
     password: Joi.string().regex(regexPassword), // okay
   }),
   nameAndPassword: Joi.object().keys({
-    name: Joi.string().required().max(32), // okay
+    name: Joi.string().required(), // okay
     password: Joi.string().regex(regexPassword), // okay
   }),
   usernameCheck: Joi.object().keys({
-    username: Joi.string().required().max(32).min(5),
+    username: Joi.string().required().max(USERNAME_VALIDATE.max).min(USERNAME_VALIDATE.min),
   }),
   songIdCheck: Joi.object().keys({
     songId: Joi.string().required(), //  need aditional check if the id is youtubeId
@@ -28,6 +28,9 @@ export const schemaBodys = {
 export const schemaQuerys = {
   pageCheck: Joi.object().keys({
     page: Joi.number().required(), // okay
+  }),
+  searchCheck: Joi.object().keys({
+    search: Joi.string().required(), //  need aditional check if the id is youtubeId
   }),
   usernameCheck: Joi.object().keys({
     username: Joi.string().required().max(32).min(5),
