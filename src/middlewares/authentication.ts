@@ -1,45 +1,42 @@
 import express, { Request, Response, Application } from "express";
+import { encryptAuth, checkAllowUpdateAuth,mutateBodyRequestAuth } from "@/validations/JWT.validate";
+
 import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
+import { string } from "joi";
 dotenv.config();
 const secretKey = `${process.env.PASSWORD_KEY}`;
+
 export const requireAuth: Application = express();
 export const authUpdate: Application = express();
+export const authMutate: Application = express();
 
 requireAuth.use(async (req: Request, res: Response, next) => {
   const tokenAuthen = req.headers.authorization;
   // allow authenticate user to make playlist, stream music, search music
-  if (!tokenAuthen)
-    return res.status(401).send({ message: "Require authentication" });
 
-  jwt.verify(tokenAuthen, secretKey, (err: any, decoded: any) => {
-    const newDecode = decoded as { userId: number; iat: number };
-    if (err) return res.status(401).send({ message: "Un-authorized request" });
-    if (newDecode.iat < new Date().getTime()) return res.status(401).send({ message: "You need to sign in again" });
-
-    if (newDecode.userId) return next();
-    res.status(401).send({ message: "Un-authorized request" });
-  });
-  
+  const result = encryptAuth(tokenAuthen);
+  if (result.success) return next();
+  else return res.status(401).send({ message: result.message });
 });
-
 
 // allow [put to user, put to playlist(make later), put to comment] by req.session.userId === user.id
 // allow [delete comment] by req.session.userId === user.id
 authUpdate.use(async (req: Request, res: Response, next) => {
-  const userIdRequest = req.query.userId? req.query.userId : 0
+  const userIdRequest = req.query.userId as string;
   const tokenAuthen = req.headers.authorization;
-  // allow authenticate user to make playlist, stream music, search music
-  if (!tokenAuthen)
-    return res.status(401).send({ message: "Un-authorized request" });
+  const result = checkAllowUpdateAuth({ token: tokenAuthen, userIdRequest });
+  if (result.success) return next();
+  else return res.status(401).send({ message: result.message });
+});
 
-  jwt.verify(tokenAuthen, secretKey, (err: any, decoded: any) => {
-    const newDecode = decoded as { userId: number; iat: number };
-    const userId = `${newDecode.userId}`
+authMutate.use(async (req: Request, res: Response, next) => {
+  const tokenAuthen = req.headers.authorization;
+  const infor = mutateBodyRequestAuth(tokenAuthen) as {userId : number}
+  if(infor){
+    req.body.userId = infor.userId
+    return next()
+  }  else return res.status(401).send({ message: "Something wrong" });
 
-    if (userId === userIdRequest) return next();
-    res.status(401).send({ message: "Un-authorized request" });
-  });
-  
 });

@@ -1,6 +1,6 @@
 import Joi from "joi";
-import { regexPassword } from "./regex.validate";
-import { USERNAME_VALIDATE } from "@/config/helper/constant";
+import { regexPassword,regexUrlImage } from "./regex.validate";
+import { USERNAME_VALIDATE,COMMENT_VALIDATE } from "@/config/helper/constant";
 
 export const schemaBodys = {
   usernameAndPassword: Joi.object().keys({
@@ -21,7 +21,13 @@ export const schemaBodys = {
     songList: Joi.array().items(Joi.string()).required(), //  need aditional check all the id is youtubeId
   }),
   contentCheck: Joi.object().keys({
-    content: Joi.string().required(), //  need aditional check if the id is youtubeId
+    content: Joi.string().max(COMMENT_VALIDATE.max).min(COMMENT_VALIDATE.min).required(), //  need aditional check if the id is youtubeId
+  }),
+  urlCheck : Joi.object().keys({
+    image: Joi.string().required().regex(regexUrlImage), //  need aditional check if the id is youtubeId
+  }),
+  playlistCheck: Joi.object().keys({
+    playlistName: Joi.string().min(1).required(), //  need aditional check if the id is youtubeId
   }),
 };
 

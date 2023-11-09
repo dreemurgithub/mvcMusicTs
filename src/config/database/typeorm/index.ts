@@ -2,7 +2,7 @@ import { DataSource } from "typeorm"
 import dotenv from "dotenv";
 dotenv.config()
 import { Userinfor } from "./user";
-import { playList } from "./playlist";
+import { PlayList } from "./playlist";
 import { Comment } from "./comment";
 import { LikePlaylist } from "./likePlaylist";
 const isLocalhost = process.env.ENVIROMENT === "DEV";
@@ -19,7 +19,7 @@ export const dataSource = new DataSource({
   synchronize: true,
   logging: true,
   host: isLocalhost ? process.env.POSTGRES_LOCAL : process.env.POSTGRES_HOST, // for docker-compose up db, to just run the database
-  entities: [Userinfor,playList,Comment,LikePlaylist],
+  entities: [Userinfor,PlayList,Comment,LikePlaylist],
 
 });
 export const userRepository = dataSource.getRepository("Userinfor");

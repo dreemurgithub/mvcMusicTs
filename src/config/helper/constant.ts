@@ -6,6 +6,14 @@ export const USERNAME_VALIDATE = {
     min: 5,
     max: 32
 }
+export const COMMENT_VALIDATE = {
+    max: 250,
+    min:1
+}
+export const PLAYLISTNAME_VALIDATE = {
+    max: 32,
+    min:1
+}
 
 const downloadKey = process.env.DOWNLOAD_MUSIC;
 export const optionsDownload = (id: string) => {
