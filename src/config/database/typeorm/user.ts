@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class User {
+export class Userinfor {
   constructor() {
     this.id = 0; // assign a default value of 0 to the id property
     this.name = ""; // assign a default value of an empty string to the name property

@@ -1,5 +1,5 @@
 import { userRepository } from "@/config/database/typeorm";
-import { User } from "@/config/database/typeorm/user";
+import { Userinfor } from "@/config/database/typeorm/user";
 
 export const readUserHelper = async ({
   username,
