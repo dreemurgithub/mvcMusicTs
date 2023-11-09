@@ -1,5 +1,5 @@
 import { userRepository } from "@/config/database/typeorm";
-import { User } from "@/config/database/typeorm/user";
+import { Userinfor } from "@/config/database/typeorm/user";
 
 export const readUserHelper = async ({
   username,
@@ -26,7 +26,7 @@ export const addUserHelper = async ({
 }) => {
   const checkUsername = await userRepository.findOne({ where: { username } });
   if (checkUsername) return { success: false, message: "Username exist" };
-  const newUser = new User();
+  const newUser = new Userinfor();
   newUser.username = username;
   newUser.password = password;
   newUser.name = name;
