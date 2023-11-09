@@ -7,17 +7,3 @@ export const streamMusic = async (id: string) => {
     return {data, success: true};
   } return {success: false, message: pathItem.message }
 };
-
-export const download3File = async ({
-  current,
-  next,
-  before,
-}: {
-  current: string;
-  next: string;
-  before: string;
-}) => {
-  //   const currentFile = await fs.readFile(idToMusic(current));
-};
-
-export const downloadFile = async (youtubeId: string) => {};
