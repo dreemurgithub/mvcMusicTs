@@ -13,11 +13,13 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_LOCAL: ${POSTGRES_HOST}
     volumes:
-      - db_data:/var/lib/postgresql/data_25_10_23
-      
+      # - db_data:/var/lib/postgresql/data_25_10_23
+      - db_data:/var/lib/postgresql/data
   app:
     build: .
     image: node
+    expose:
+      - "3000"
     container_name: node_on_postgres_con
     restart: unless-stopped
     volumes:

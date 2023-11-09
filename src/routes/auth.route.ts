@@ -1,11 +1,20 @@
-import express, { Request, Response, Application } from "express";
+import express, { Application } from "express";
 const authRoute: Application = express();
-import authController from "@/controllers/auth.controller";
-import authMiddleware from "@/middlewares/auth.middleware";
-// should return {success: boolean, data? , message?}
-// authRoute.get('/auth',authMiddleware,authController)
-authRoute.post('/auth',authMiddleware,authController)
-// authRoute.put('/auth',authMiddleware,authController)
-authRoute.delete('/auth',authMiddleware,authController)
+import { authControllerSignin, authControllerGet } from "@/controllers/auth/index.controller";
+import { schemaBodys } from "@/validations/validateGeneral";
+import { validateBody } from "@/middlewares/validateBody";
+import { validateUsernameExist } from "@/middlewares/custom.middleware";
+import { userNewController } from "@/controllers/user/index.controller";
 
-export default authRoute
+authRoute.post("/auth/test", authControllerGet);
+
+authRoute.post("/auth",validateBody(schemaBodys.usernameAndPassword), authControllerSignin);
+authRoute.post(
+  "/auth/new",
+  validateBody(schemaBodys.nameAndPassword),
+  validateBody(schemaBodys.usernameCheck),
+  validateUsernameExist,
+  userNewController
+);
+
+export default authRoute;

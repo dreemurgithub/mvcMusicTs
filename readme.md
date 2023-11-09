@@ -4,7 +4,7 @@
 - Compile/Check: Npm run build
 - Start the compiled file: NPM run start
 
-### Run docker
+### Run docker(make it with JWT, dont need refresh token for now)
 
 - npm run build: to compile before "sudo docker-compose up --build"
 - docker-compose up: Start both the app and postgres
@@ -18,7 +18,7 @@
 
 ### Routes
 
-- Includes: '/user', '/music' , '/listen' , '/auth'
+- Includes: '/user', '/music' , '/stream' , '/auth'
 - Unauthenticated request can only go to POST /user and POST /auth, the rest require authenticate
 - /music are for playlist(read, create, update, delete songs)
 - /user are for read, create, update and delete account
@@ -92,19 +92,19 @@
   }
 - Wrong id return a 400 with message
 
-## '/listen' route, for stream, download
+## '/stream' route, for stream, download
 
-### All the avaiable id - get request to '/listen'
+### All the avaiable id - get request to '/stream'
  - Always an array of id []
 
-### Download new MP3 to server - put request to '/listen'
+### Download new MP3 to server - put request to '/stream'
  - send {id: string} , if the id is on youtube, the request should return status 200 and the song information, otherwise send a 400 with a message
 
-### Download 3 file, return only current playing - post request to '/listen'
+### Download 3 file, return only current playing - post request to '/stream'
  - send {current: string, next: string, before: string} , if the current is on youtube, the request should return status 200 and the song information, otherwise send a 400 with a message
  - The server will return the current song first and save the infor on disk later
 
-### Stream music at '/listen/:id' , with id is from youtube video
+### Stream music at '/stream/:id' , with id is from youtube video
 
-- Connect audio to get request in /listen/:id should allow listening to mp3.
-- All the avaiable id can be found at a get request to /listen
+- Connect audio to get request in /stream/:id should allow listening to mp3.
+- All the avaiable id can be found at a get request to /stream
