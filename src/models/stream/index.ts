@@ -1,9 +1,5 @@
 import { streamMusic } from "./helper";
-const streamFile = async (id: string) => {
+export const streamFile = async (id: string) => {
   const file = await streamMusic(id);
   return file;
 };
-
-const downloadBefore = async(youtubeId : string)=>{
-  
-}
