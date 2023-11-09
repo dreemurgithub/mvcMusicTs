@@ -1,6 +1,6 @@
 import express, { Request, Response, Application } from "express";
-import { playlistGetController } from "@/controllers/playlist";
-import { requireAuth, authUpdate } from "@/middlewares/authentication";
+import { playlistGetController,playlistNewController } from "@/controllers/playlist/index.controller";
+import { requireAuth, authUpdate ,authMutate} from "@/middlewares/authentication";
 const playlistRoute: Application = express();
 import { schemaBodys, schemaQuerys } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
@@ -10,7 +10,6 @@ import { validateUsernameExist } from "@/middlewares/custom.middleware";
 // should return {success: boolean, data? , message?}
 playlistRoute.get(
   "/playlist",
-  validateQuery(schemaQuerys.pageCheck),
   validateQuery(schemaQuerys.playlistIdCheck),
   playlistGetController
 );
@@ -22,7 +21,9 @@ playlistRoute.get(
   validateQuery(schemaQuerys.usernameCheck),
   playlistGetController
 );
-playlistRoute.put("/playlist", playlistGetController);
-playlistRoute.delete("/playlist", playlistGetController);
+playlistRoute.post("/playlist",authMutate,validateBody(schemaBodys.urlCheck),validateBody(schemaBodys.playlistCheck), playlistNewController);
+
+// playlistRoute.put("/playlist", playlistGetController);
+// playlistRoute.delete("/playlist", playlistGetController);
 
 export default playlistRoute;

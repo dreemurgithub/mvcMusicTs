@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { COMMENT_VALIDATE } from "@/config/helper/constant";
 
 @Entity()
 export class Comment {
@@ -19,7 +20,7 @@ export class Comment {
   @Column()
   userId: number;
 
-  @Column()
+  @Column("varchar", { length: COMMENT_VALIDATE.max })
   content: string;
 
 
