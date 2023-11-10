@@ -1,6 +1,6 @@
 import express, { Request, Response, Application } from "express";
 
-const errorHandler: Application = express();
+const errorHandler= express.Router({mergeParams: true});
 
 errorHandler.use((req : Request, res : Response, next) => {
     // exception handler for all

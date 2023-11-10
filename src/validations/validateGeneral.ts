@@ -47,5 +47,15 @@ export const schemaQuerys = {
   playlistIdCheck: Joi.object().keys({
     playlistid: Joi.number().required(), //  need aditional check if the id is youtubeId
   }),
+
   
 };
+
+export const schemaParams = {
+  ownerCheck:  Joi.object().keys({
+    owner: Joi.number().required(), //  need aditional check if the id is youtubeId
+  }),
+  sortCheck:  Joi.object().keys({
+    sort: Joi.string().required().valid('ASC','DESC'), //  need aditional check if the id is youtubeId
+  })
+}

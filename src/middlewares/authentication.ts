@@ -8,9 +8,9 @@ import { string } from "joi";
 dotenv.config();
 const secretKey = `${process.env.PASSWORD_KEY}`;
 
-export const requireAuth: Application = express();
-export const authUpdate: Application = express();
-export const authMutate: Application = express();
+export const requireAuth= express.Router({mergeParams: true});
+export const authUpdate= express.Router({mergeParams: true});
+export const authMutate= express.Router({mergeParams: true});
 
 requireAuth.use(async (req: Request, res: Response, next) => {
   const tokenAuthen = req.headers.authorization;

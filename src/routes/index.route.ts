@@ -8,7 +8,7 @@ import playlistRoute from "./playlist.route";
 import likeRoute from "./like.route";
 import { requireAuth } from "@/middlewares/authentication";
 import roomRoute from "./room.route";
-const expressRoute: Application = express();
+const expressRoute= express.Router({mergeParams: true});
 
 // expressRoute.use(authRoute);
 // expressRoute.use(userRoute);

@@ -1,9 +1,9 @@
 import express, { Request, Response, Application } from "express";
 import { makeUser ,editUser} from "@/models/user";
 
-export const userNewController: Application = express();
-export const getController: Application = express();
-export const userEditController: Application = express();
+export const userNewController= express.Router({mergeParams: true});
+export const getController= express.Router({mergeParams: true});
+export const userEditController= express.Router({mergeParams: true});
 const secretKey = `${process.env.PASSWORD_KEY}`;
 
 getController.use(async (req: Request, res: Response) => {

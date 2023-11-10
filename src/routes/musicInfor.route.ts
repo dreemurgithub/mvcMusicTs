@@ -1,5 +1,5 @@
 import express, { Request, Response, Application } from "express";
-const musicInforRoute: Application = express();
+const musicInforRoute= express.Router({mergeParams: true});
 import {musicInforController,musicDownloadController} from "@/controllers/musicInfor/index.controller";
 import { checkYoutubeId } from "@/middlewares/youtube.middleware";
 import { schemaQuerys } from "@/validations/validateGeneral";
