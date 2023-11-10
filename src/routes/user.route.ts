@@ -5,7 +5,7 @@ import {
   getController,
 } from "@/controllers/user/index.controller";
 import { authUpdate } from "@/middlewares/authentication";
-const userRoute: Application = express();
+const userRoute= express.Router({mergeParams: true});
 import { schemaBodys } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
 import { validateUsernameExist } from "@/middlewares/custom.middleware";

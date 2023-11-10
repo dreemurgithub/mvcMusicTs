@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-const authRoute: Application = express();
+const authRoute= express.Router({mergeParams: true});
 import { authControllerSignin, authControllerGet } from "@/controllers/auth/index.controller";
 import { schemaBodys } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";

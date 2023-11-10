@@ -4,8 +4,8 @@ import { downloadSong ,} from "@/models/musicInfor";
 // import { downloadMusicCheck } from "@/models/musicInfor/download";
 
 
-export const musicInforController: Application = express();
-export const musicDownloadController: Application = express();
+export const musicInforController= express.Router({mergeParams: true});
+export const musicDownloadController= express.Router({mergeParams: true});
 
 musicInforController.use(async (req: Request, res: Response) => {
   const { search, page } = req.query;
@@ -17,8 +17,8 @@ musicInforController.use(async (req: Request, res: Response) => {
     parseInt(page);
   if (check) {
     const result = await musicYoutubeSearch({ search, page: parseInt(page) });
-    if (result.success) return res.status(201).send(result.data);
-    else return res.status(400).send({ message: result.message });
+    if (result.success) return res.status(200).send(result.data);
+    else return res.status(204).send({ message: result.message });
   }
   res.status(400).send({ message: "Something wrong with searching music" });
 });

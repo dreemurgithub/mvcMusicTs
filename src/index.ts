@@ -4,7 +4,7 @@ import expressRoute from "./routes/index.route";
 import { createTableConnect } from "@/config/helper/startup";
 import { checkPath ,idToMusic , allMusicId} from "./config/helper/musicFolder";
 
-const app: Application = express();
+const app= express();
 const PORT = process.env.PORT || 3000;
 
 app.use(configApp)
