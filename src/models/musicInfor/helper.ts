@@ -18,8 +18,8 @@ export const musicSearch = async ({search, page}: {search: string, page: number}
   for(let i = MUSIC_PAGE*page;i<MUSIC_PAGE*page + MUSIC_PAGE;i++) {
     if(videoFilter[i]) pageArr.push(videoFilter[i])
   }
-  if (pageArr.length) return { data: {data: pageArr, page, songCount: pageArr.length}, success: true,  };
-  else return { success: false, message: "No song" };
+  if (pageArr.length) return { data: {data: pageArr, page, rowCount: videoFilter.length}, success: true,  };
+  else return { success: false, message: "No song left",page, rowCount: videoFilter.length};
 };
 
 export const musicFromYoutubeId =async (youtubeId:string) => {

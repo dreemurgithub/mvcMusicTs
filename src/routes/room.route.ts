@@ -1,7 +1,7 @@
 import express, { Request, Response, Application } from "express";
 import {userNewController,userEditController,getController} from "@/controllers/user/index.controller";
 import {requireAuth, authUpdate} from "@/middlewares/authentication";
-const roomRoute: Application = express();
+const roomRoute= express.Router({mergeParams: true});
 import { schemaBodys,schemaQuerys } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
 import { validateUsernameExist } from "@/middlewares/custom.middleware";

@@ -1,5 +1,5 @@
 import express, { Request, Response, Application } from "express";
-const streamRoute: Application = express();
+const streamRoute= express.Router({mergeParams: true});
 import {streamController,streamControllerpost} from "@/controllers/stream/index.controller";
 import {requireAuth} from "@/middlewares/authentication";
 import { checkYoutubeId ,checkYoutubeIdList} from "@/middlewares/youtube.middleware";

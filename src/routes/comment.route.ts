@@ -1,5 +1,5 @@
 import express, { Request, Response, Application } from "express";
-const commentRoute: Application = express();
+const commentRoute= express.Router({mergeParams: true});
 import { makeCommentController } from "@/controllers/comment";
 // should return {success: boolean, data? , message?}
 commentRoute.get("/comment", makeCommentController);

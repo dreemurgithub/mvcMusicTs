@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 dotenv.config();
 const secretKey = `${process.env.PASSWORD_KEY}`;
 
-export const makeCommentController: Application = express();
-export const readCommentController: Application = express();
-export const editCommentController: Application = express();
-export const deleteCommentController: Application = express();
+export const makeCommentController= express.Router({mergeParams: true});
+export const readCommentController= express.Router({mergeParams: true});
+export const editCommentController= express.Router({mergeParams: true});
+export const deleteCommentController= express.Router({mergeParams: true});
 makeCommentController.use(async (req: Request, res: Response) => {
     res.send('comment')
 });
