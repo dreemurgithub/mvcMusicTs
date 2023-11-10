@@ -1,5 +1,9 @@
 import express, { Request, Response, Application } from "express";
-import { encryptAuth, checkAllowUpdateAuth,mutateBodyRequestAuth } from "@/validations/JWT.validate";
+import {
+  encryptAuth,
+  checkAllowUpdateAuth,
+  userIdFromAuth,
+} from "@/validations/JWT.validate";
 
 import jwt from "jsonwebtoken";
 
@@ -8,9 +12,9 @@ import { string } from "joi";
 dotenv.config();
 const secretKey = `${process.env.PASSWORD_KEY}`;
 
-export const requireAuth= express.Router({mergeParams: true});
-export const authUpdate= express.Router({mergeParams: true});
-export const authMutate= express.Router({mergeParams: true});
+export const requireAuth = express.Router({ mergeParams: true });
+export const authUpdate = express.Router({ mergeParams: true });
+export const authMutateBody = express.Router({ mergeParams: true });
 
 requireAuth.use(async (req: Request, res: Response, next) => {
   const tokenAuthen = req.headers.authorization;
@@ -31,12 +35,11 @@ authUpdate.use(async (req: Request, res: Response, next) => {
   else return res.status(401).send({ message: result.message });
 });
 
-authMutate.use(async (req: Request, res: Response, next) => {
+authMutateBody.use(async (req: Request, res: Response, next) => {
   const tokenAuthen = req.headers.authorization;
-  const infor = mutateBodyRequestAuth(tokenAuthen) as {userId : number}
-  if(infor){
-    req.body.userId = infor.userId
-    return next()
-  }  else return res.status(401).send({ message: "Something wrong" });
-
+  const infor = userIdFromAuth(tokenAuthen) as { userId: number };
+  if (infor) {
+    req.body.userId = infor.userId;
+    return next();
+  } else return res.status(401).send({ message: "Something wrong" });
 });
