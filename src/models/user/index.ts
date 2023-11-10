@@ -3,8 +3,18 @@ import {
   addUserHelper,
   deleteUserHelper,
   editUserHelper,
-  readUserHelper,
+  readUserIdHelper
 } from "./helper";
+
+export const readUserId =async (id:number) => {
+  const data = await readUserIdHelper(id)
+  if(data) return {
+    success: true,
+    data: {  id: data.id,username: data.username,name: data.name}
+  } 
+  else return {success: false, message:"No user with this id"}
+}
+
 export const makeUser = async ({
   password,
   username,

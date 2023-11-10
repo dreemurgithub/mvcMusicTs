@@ -2,12 +2,14 @@ import express, { Request, Response, Application } from "express";
 import {
   userNewController,
   userEditController,
-  getController,
+  userDeleteController,
+  userGetControllerId
 } from "@/controllers/user/index.controller";
-import { authUpdate } from "@/middlewares/authentication";
+import { authUpdate,authMutateBody } from "@/middlewares/authentication";
 const userRoute= express.Router({mergeParams: true});
-import { schemaBodys } from "@/validations/validateGeneral";
+import { schemaBodys,schemaParams } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
+import { validateParams } from "@/middlewares/validateParams";
 import { validateUsernameExist } from "@/middlewares/custom.middleware";
 
 // should return {success: boolean, data? , message?}
@@ -18,12 +20,19 @@ import { validateUsernameExist } from "@/middlewares/custom.middleware";
 //   validateUsernameExist,
 //   userNewController
 // );
+
+userRoute.get(
+  "/api/user/:id",
+  validateParams(schemaParams.idCheck),
+  userGetControllerId
+);
+
 userRoute.put(
-  "/user",
+  "/api/user",
   validateBody(schemaBodys.nameAndPassword),
-  authUpdate,
+  authMutateBody,
   userEditController
 );
-userRoute.delete("/user", authUpdate, userNewController);
+userRoute.delete("/api/user",  userDeleteController);
 
 export default userRoute;

@@ -1,8 +1,12 @@
 import {
   addNewPlaylistHelper,
+  deletePlaylistIdHelper,
   readPlaylistByIdHelper,
-  readPlaylistOwnerSortHelper,
-  readPlaylistTopSortHelper
+  readPlaylistTimeSortHelper,
+  readPlaylistTimeTopSortHelper,
+  readPlaylistUserSortHelper,
+  readPlaylistUserTopSortHelper,
+  updatePlaylistIdHelper
 } from "./helper";
 export const playListMaking = async ({
   playlistName,
@@ -31,7 +35,7 @@ export const readPlaylistById = async (id: number) => {
   return { success: false, message: "No playlist with this Id" };
 };
 
-export const readAllPlaylistOwner = async ({
+export const readAllPlaylistTimeSortFromUser = async ({
   userId,
   sort,
   page,
@@ -40,20 +44,44 @@ export const readAllPlaylistOwner = async ({
   sort: "DESC" | "ASC";
   page: number;
 }) => {
-  const playlist = await readPlaylistOwnerSortHelper({ userId, sort, page });
+  const playlist = await readPlaylistTimeSortHelper({ userId, sort, page });
   if (playlist.rowCount) return { success: true, data: playlist };
   return { success: false, message: "This user don't have any/more playlist" };
 };
 
-
-export const readAllPlaylistTop = async ({
+export const readAllPlaylistTimeTop = async ({
   sort,
   page,
 }: {
   sort: "DESC" | "ASC";
   page: number;
 }) => {
-  const playlist = await readPlaylistTopSortHelper({ sort, page });
+  const playlist = await readPlaylistTimeTopSortHelper({ sort, page });
   if (playlist.rowCount) return { success: true, data: playlist };
   return { success: false, message: "This user don't have any/more playlist" };
 };
+
+export const deletePlaylistId =async ({userId,id}: {userId: number,id: number}) => {
+  const result = await deletePlaylistIdHelper({userId,id})
+  return result
+}
+
+export const updatePlaylistId =async ({
+  id,
+  playlistName,
+  songList,
+  image,
+  userId,
+}: {  
+  id: number;
+  playlistName: string;
+  songList: string[];
+  image: string;
+  userId: number;}) => {
+  const result = await updatePlaylistIdHelper({id,
+    playlistName,
+    songList,
+    image,
+    userId,})
+  return result
+}

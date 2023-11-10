@@ -1,11 +1,10 @@
 import express, { Request, Response, Application } from "express";
 import { musicYoutubeSearch } from "@/models/musicInfor";
-import { downloadSong ,} from "@/models/musicInfor";
+import { downloadSong } from "@/models/musicInfor";
 // import { downloadMusicCheck } from "@/models/musicInfor/download";
 
-
-export const musicInforController= express.Router({mergeParams: true});
-export const musicDownloadController= express.Router({mergeParams: true});
+export const musicInforController = express.Router({ mergeParams: true });
+export const musicDownloadController = express.Router({ mergeParams: true });
 
 musicInforController.use(async (req: Request, res: Response) => {
   const { search, page } = req.query;
@@ -24,11 +23,10 @@ musicInforController.use(async (req: Request, res: Response) => {
 });
 
 musicDownloadController.use(async (req: Request, res: Response) => {
-  const { songId } = req.query;
-  
-  if(songId && typeof songId === 'string'){
-    const result = await downloadSong(songId)
-     if(result?.success)return res.status(200).send(result.data)
+  const { songId } = req.params;
 
-    } else res.send({message: 'Bad youtubeId/ Request'})
+  if (songId && typeof songId === "string") {
+    const result = await downloadSong(songId);
+    if (result?.success) return res.status(200).send(result.data);
+  } else res.send({ message: "Bad youtubeId/ Request" });
 });

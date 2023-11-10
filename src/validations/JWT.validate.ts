@@ -5,7 +5,7 @@ dotenv.config();
 const secretKey = `${process.env.PASSWORD_KEY}`;
 
 export const encryptAuth = (token?: string) => {
-  if (!token) return { message: "Require authentication", success: false };
+  if (!token) return { message: "Require authentication from user", success: false };
   let result = { message: "Un-authorized request", success: false };
   jwt.verify(token, secretKey, (err: any, decoded: any) => {
     const newDecode = decoded as { userId: number; iat: number };
@@ -33,12 +33,14 @@ export const checkAllowUpdateAuth = ({
     const userId = `${newDecode.userId}`;
 
     if (userId === userIdRequest) result = { message: "", success: true };
-});
-return result;
+  });
+  return result;
 };
 
-export const mutateBodyRequestAuth = (token? : string )=>{
-    if(!token) return { userId: -1, iat: 1700381283777 }
-    const userId = jwt.decode(token)? jwt.decode(token) : { userId: -1, iat: 1700381283777 };
-    return userId
-}
+export const userIdFromAuth = (token?: string) => {
+  if (!token) return { userId: -1, iat: 1700381283777 };
+  const infor = jwt.decode(token)
+    ? jwt.decode(token)
+    : { userId: -1, iat: 1700381283777 };
+  return infor;
+};

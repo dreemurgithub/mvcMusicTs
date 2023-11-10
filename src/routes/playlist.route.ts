@@ -2,14 +2,12 @@ import express, { Request, Response, Application } from "express";
 import {
   playlistGetController,
   playlistNewController,
-  playlistOwnerController
+  playlistUserControllerReadTime,
+  playlistDeleteController,
+  playlistEditController
 } from "@/controllers/playlist/index.controller";
-import {
-  requireAuth,
-  authUpdate,
-  authMutate,
-} from "@/middlewares/authentication";
-const playlistRoute = express.Router({mergeParams: true});
+import { authUpdate, authMutateBody } from "@/middlewares/authentication";
+const playlistRoute = express.Router({ mergeParams: true });
 import {
   schemaBodys,
   schemaQuerys,
@@ -19,31 +17,68 @@ import { validateBody } from "@/middlewares/validateBody";
 import { validateQuery } from "@/middlewares/validateQuery";
 import { validateParams } from "@/middlewares/validateParams";
 import { validateUsernameExist } from "@/middlewares/custom.middleware";
+import { validateYoutubeSongList } from "@/validations/youtube.validate";
+import { checkYoutubeIdList } from "@/middlewares/youtube.middleware";
+// playlistRoute.get(
+//   "/playlist",
+//   validateQuery(schemaQuerys.playlistIdCheck),
+//   playlistGetController
+// );
 
-// should return {success: boolean, data? , message?}
+// playlistRoute.get( // use this
+//   "/api/playlist/:userId/view",
+//   validateParams(schemaParams.userIdCheck),
+//   validateQuery(schemaQuerys.pageCheck),
+//   validateQuery(schemaQuerys.sortCheck),
+//   playlistGetController
+// );
 playlistRoute.get(
-  "/playlist",
-  validateQuery(schemaQuerys.playlistIdCheck),
-  playlistGetController
-);
-playlistRoute.get("/playlist/top", playlistGetController);
-playlistRoute.get(
-  "/playlist/:owner/:sort",
-  validateParams(schemaParams.ownerCheck),
-  validateParams(schemaParams.sortCheck),
+  "/api/playlist/:userId/time",
+  validateParams(schemaParams.userIdCheck),
   validateQuery(schemaQuerys.pageCheck),
-  playlistOwnerController
+  validateQuery(schemaQuerys.sortCheck),
+  playlistUserControllerReadTime
 );
+
+// playlistRoute.get( // use this
+//   "/api/playlist/:userId/user",
+//   validateParams(schemaParams.userIdCheck),
+//   validateQuery(schemaQuerys.pageCheck),
+//   validateQuery(schemaQuerys.sortCheck),
+//   playlistGetController
+// );
+// playlistRoute.get( // use this
+//   "/api/playlist/:userId/view",
+//   validateParams(schemaParams.userIdCheck),
+//   validateParams(schemaQuerys.sortCheck),
+//   validateQuery(schemaQuerys.pageCheck),
+//   playlistUserControllerReadTime
+// );
 
 playlistRoute.post(
-  "/playlist",
-  authMutate,
-  validateBody(schemaBodys.urlCheck),
-  validateBody(schemaBodys.playlistCheck),
+  "/api/playlist",
+  validateBody(schemaBodys.playlistNameCheck),
+  validateBody(schemaBodys.imageCheck),
+  validateBody(schemaBodys.songListCheck),
+  authMutateBody,
+  checkYoutubeIdList,
   playlistNewController
 );
 
-// playlistRoute.put("/playlist", playlistGetController);
-// playlistRoute.delete("/playlist", playlistGetController);
+playlistRoute.put(
+  "/api/playlist",
+  validateBody(schemaBodys.playlistNameCheck),
+  validateBody(schemaBodys.imageCheck),
+  validateBody(schemaBodys.songListCheck),
+  validateBody(schemaBodys.idCheck),
+  authMutateBody,
+  checkYoutubeIdList,
+  playlistEditController
+);
+playlistRoute.delete(
+  "/api/playlist/:id",
+  validateParams(schemaParams.idCheck),
+  playlistDeleteController
+);
 
 export default playlistRoute;

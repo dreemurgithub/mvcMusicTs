@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne,JoinColumn } from "typeorm";
 import { PLAYLISTNAME_VALIDATE } from "@/config/helper/constant";
 import { Userinfor } from "./user";
+import { number } from "joi";
 @Entity()
 export class PlayList {
   constructor() {
@@ -23,11 +24,11 @@ export class PlayList {
   @Column()
   image: string;
 
-  @Column({nullable: true})
+  @Column({default: 0})
   view: number;
 
-  @ManyToOne(type =>Userinfor )
-  @JoinColumn({name: 'userId',referencedColumnName: 'id'})
+  @ManyToOne(() =>Userinfor ,user => user.id ,{onDelete: 'CASCADE'})
+  // @JoinColumn({name: 'userId',referencedColumnName: 'id'})
   @Column()
   userId: number;
 
