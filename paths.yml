@@ -91,6 +91,8 @@ paths:
     get:
       tags:
         - Music
+      security:
+        - OAuth2: [AuthToken]
       summary: Search music
       description: Return data, only song that is less than 5 min
       parameters:
@@ -169,7 +171,7 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserAll"
         required: true
       responses:
         "201":
@@ -301,7 +303,7 @@ paths:
         - in: query
           name: sort
           required: true
-          description: DESC or ASC to sort the comment
+          description: DESC or ASC to sort by view
           schema:
             type: string
             pattern: DESC|ASC
@@ -353,7 +355,7 @@ paths:
         - in: query
           name: sort
           required: true
-          description: DESC or ASC to sort the comment
+          description: DESC or ASC to sort by time
           schema:
             type: string
             pattern: DESC|ASC
