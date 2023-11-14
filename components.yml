@@ -23,6 +23,9 @@ components:
         token:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcwMDEyOTE5NjEwMn0.RbS_MqHNK8ZHzr_00e9ASol7X-QCahRIlucYYGTGe8U
+        userId: 
+          type: integer
+          example: 1
     SongInfor:
       type: object
       properties:

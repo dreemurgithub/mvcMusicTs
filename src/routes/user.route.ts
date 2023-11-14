@@ -3,23 +3,14 @@ import {
   userNewController,
   userEditController,
   userDeleteController,
-  userGetControllerId
+  userGetControllerId,
 } from "@/controllers/user/index.controller";
-import { authUpdate,authMutateBody } from "@/middlewares/authentication";
-const userRoute= express.Router({mergeParams: true});
-import { schemaBodys,schemaParams } from "@/validations/validateGeneral";
+import { authMutateBody } from "@/middlewares/authentication";
+const userRoute = express.Router({ mergeParams: true });
+import { schemaBodys, schemaParams } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
 import { validateParams } from "@/middlewares/validateParams";
-import { validateUsernameExist } from "@/middlewares/custom.middleware";
-
-// should return {success: boolean, data? , message?}
-// userRoute.post(
-//   "/user",
-//   validateBody(schemaBodys.nameAndPassword),
-//   validateBody(schemaBodys.usernameCheck),
-//   validateUsernameExist,
-//   userNewController
-// );
+import { validateUsernameExist } from "@/middlewares/user.middleware";
 
 userRoute.get(
   "/api/user/:id",
@@ -30,9 +21,10 @@ userRoute.get(
 userRoute.put(
   "/api/user",
   validateBody(schemaBodys.nameAndPassword),
+  validateBody(schemaBodys.imageCheck),
   authMutateBody,
   userEditController
 );
-userRoute.delete("/api/user",  userDeleteController);
+userRoute.delete("/api/user", userDeleteController);
 
 export default userRoute;

@@ -3,6 +3,10 @@ import { regex5minLess } from "./regex.validate";
 import * as yt from "youtube-search-without-api-key";
 import { resolve } from "path";
 import { ytCacheRepository } from "@/config/database/typeorm";
+import NodeID3 from "node-id3";
+import axios from "axios";
+
+
 export const checkDuration = async (id: string) => {
   const videosIdArr = await yt.search(id);
   if (!regex5minLess.test(videosIdArr[0].duration_raw)) return false;
@@ -10,7 +14,9 @@ export const checkDuration = async (id: string) => {
 };
 
 export const validateYoutubeId = (id: string) => {
+
   return new Promise(async (resolve: any, rejects: any) => {
+
     const cacheCheck = await ytCacheRepository.findOne({
       where: { youtubeId: id },
     });

@@ -18,24 +18,24 @@ export const encryptAuth = (token?: string) => {
   return result;
 };
 
-export const checkAllowUpdateAuth = ({
-  token,
-  userIdRequest,
-}: {
-  token?: string;
-  userIdRequest?: string;
-}) => {
-  if (!token) return { message: "You are not allow to Update", success: false };
-  let result = { message: "You are not allow to Update", success: false };
+// export const checkAllowUpdateAuth = ({
+//   token,
+//   userIdRequest,
+// }: {
+//   token?: string;
+//   userIdRequest?: string;
+// }) => {
+//   if (!token) return { message: "You are not allow to Update", success: false };
+//   let result = { message: "You are not allow to Update", success: false };
 
-  jwt.verify(token, secretKey, (err: any, decoded: any) => {
-    const newDecode = decoded as { userId: number; iat: number };
-    const userId = `${newDecode.userId}`;
+//   jwt.verify(token, secretKey, (err: any, decoded: any) => {
+//     const newDecode = decoded as { userId: number; iat: number };
+//     const userId = `${newDecode.userId}`;
 
-    if (userId === userIdRequest) result = { message: "", success: true };
-  });
-  return result;
-};
+//     if (userId === userIdRequest) result = { message: "", success: true };
+//   });
+//   return result;
+// };
 
 export const userIdFromAuth = (token?: string) => {
   if (!token) return { userId: -1, iat: 1700381283777 };
