@@ -72,14 +72,8 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  title:
-                    type: string
-                    example: M2M - The Day You Went Away
-                  duration:
-                    type: string
-                    format: date
-                    example: 3:36
+                $ref: "#/components/schemas/SongInfor"
+
         "204":
           description: No playlist
           content:
@@ -93,9 +87,49 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/responses/UnauthorizedError"
+  /api/music?search={search}&page={page}:
+    get:
+      tags:
+        - Music
+      summary: Search music
+      description: Return data, only song that is less than 5 min
+      parameters:
+        - in: query
+          search:
+            type: string
+            example: my+love
+        - in: query
+          page:
+            type: number
+            example: 1
+      responses:
+        "200":
+          description: After this api send response, /api/stream/{songId} is available to stream
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page: 
+                    type: integer
+                    example: 1
+                  rowCount: 
+                    type: integer
+                    example: 11
+                  data: 
+                    type: array
+                    items: 
+                      type: object
+                      $ref: "#/components/schemas/SongInfor"
+        "204":
+          description: No playlist
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/MessageBad"
   /api/auth:
     post:
-    
       tags:
         - User
       summary: Sign in
