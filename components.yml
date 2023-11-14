@@ -23,6 +23,26 @@ components:
         token:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcwMDEyOTE5NjEwMn0.RbS_MqHNK8ZHzr_00e9ASol7X-QCahRIlucYYGTGe8U
+    SongInfor:
+      type: object
+      properties:
+        title:
+          type: string
+          example: The Way You Look Tonight
+        duration_raw:
+          type: string
+          format: date
+          example: 3:23
+        view:
+          type: string
+          example: "27922554"
+        snippet:
+          type: object
+          properties:
+            url:
+              type: string
+              description: Image for the song
+              example: https://i.ytimg.com/vi/82_JCboW69U/hq720.jpg?sqp=-oaymwEXCNAFEJQDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAEE-dXk6gYcyFHTcmcRKR9Pu-B9g
     User:
       type: object
       properties:
