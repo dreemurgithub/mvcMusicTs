@@ -19,7 +19,7 @@ paths:
       security:
         - OAuth2: [AuthToken]
       tags:
-        - Stream
+        - Music
       summary: Stream Music
       parameters:
         - in: path
@@ -53,7 +53,7 @@ paths:
   /api/music/{songId}:
     get:
       tags:
-        - Stream
+        - Music
       summary: Download Music
       security:
         - OAuth2: [AuthToken]
@@ -110,15 +110,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  page: 
+                  page:
                     type: integer
                     example: 1
-                  rowCount: 
+                  rowCount:
                     type: integer
                     example: 11
-                  data: 
+                  data:
                     type: array
-                    items: 
+                    items:
                       type: object
                       $ref: "#/components/schemas/SongInfor"
         "204":
@@ -186,7 +186,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/user/{id}:
+  /api/users/{id}:
     get:
       tags:
         - User
@@ -217,7 +217,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/user:
+  /api/users:
     put:
       tags:
         - User
@@ -283,7 +283,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/playlist/{userId}/view?sort={sort}&page={page}:
+  /api/playlists/{userId}/view?sort={sort}&page={page}:
     get:
       tags:
         - Playlist
@@ -335,7 +335,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/playlist/{userId}/time?sort={sort}&page={page}:
+  /api/playlists/{userId}/time?sort={sort}&page={page}:
     get:
       tags:
         - Playlist
@@ -389,7 +389,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/playlist:
+  /api/playlists:
     post:
       tags:
         - Playlist
@@ -468,7 +468,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/playlist/{id}:
+  /api/playlists/{id}:
     delete:
       tags:
         - Playlist
@@ -499,7 +499,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/comment/{userId}/{playlist}/time?sort={sort}&page={page}:
+  /api/comments/{userId}/{playlist}/time?sort={sort}&page={page}:
     get:
       tags:
         - Comment
@@ -560,7 +560,7 @@ paths:
                 properties:
                   message:
                     type: string
-  /api/comment/{userId}/{playlist}/playlist?sort={sort}&page={page}:
+  /api/comments/{userId}/{playlist}/playlist?sort={sort}&page={page}:
     get:
       tags:
         - Comment
@@ -619,7 +619,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/comment:
+  /api/comments:
     post:
       tags:
         - Comment
@@ -699,7 +699,7 @@ paths:
                   message:
                     type: string
 
-  /api/comment/{id}:
+  /api/comments/{id}:
     delete:
       security:
         - OAuth2: [AuthToken]
@@ -728,7 +728,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/like/{playlistId}/playlist?sort={sort}&page={page}:
+  /api/likes/{playlistId}/playlist?sort={sort}&page={page}:
     get:
       tags:
         - Like
@@ -766,7 +766,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  rowCount: 
+                  rowCount:
                     type: integer
                     example: 20
                   page:
@@ -793,7 +793,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/like/{userId}/user?sort={sort}&page={page}:
+  /api/likes/{userId}/user?sort={sort}&page={page}:
     get:
       tags:
         - Like
@@ -845,9 +845,9 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/like:
+  /api/likes:
     security:
-        - OAuth2: [AuthToken]
+      - OAuth2: [AuthToken]
     requestBody:
       description: like a playlist
       content:
@@ -886,9 +886,9 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/like/{id}:
+  /api/likes/{id}:
     security:
-        - OAuth2: [AuthToken]
+      - OAuth2: [AuthToken]
     parameters:
       - in: query
         name: likeId
