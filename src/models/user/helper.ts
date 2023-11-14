@@ -24,23 +24,28 @@ export const addUserHelper = async ({
   username,
   password,
   name,
+  avatar
 }: {
   username: string;
   password: string;
   name: string;
+  avatar: string;
 }) => {
-  const checkUsername = await userRepository.findOne({ where: { username } });
-  if (checkUsername) return { success: false, message: "Username exist" };
-  const newUser = new Userinfor();
+  
+  try {const newUser = new Userinfor();
   newUser.username = username;
   newUser.password = password;
   newUser.name = name;
+  newUser.avatar = avatar;
   await userRepository.save(newUser);
-  return { success: true, data: newUser };
+  return { success: true, data: newUser };}
+  catch (err){
+    console.log(err)
+    return { success: false, data: null }
+  }
 };
 
 export const checkUsernameExist = async (username: string) => {
-  const allUser = await userRepository.find();
   const userExist = await userRepository.findOne({ where: { username } });
   return userExist && true;
 };
@@ -50,16 +55,19 @@ export const editUserHelper = async ({
   password,
   name,
   id,
+  avatar
 }: {
   username: string;
   password: string;
   name: string;
   id: number;
+  avatar: string;
 }) => {
   const updateUser = await userRepository.findOne({ where: { username, id } });
   if (!updateUser) return { success: false, message: "Bad Request" };
   updateUser.password = password;
   updateUser.name = name;
+  updateUser.avatar = avatar;
   await userRepository.save(updateUser);
   if (!updateUser) return { success: false, message: "Bad Request" };
   return { success: true, data: updateUser };

@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { regexPassword, regexUrlImage } from "./regex.validate";
+import { regexPassword, regexUrlImage ,regexUsername} from "./regex.validate";
 import { USERNAME_VALIDATE, COMMENT_VALIDATE } from "@/config/helper/constant";
 
 export const schemaBodys = {
@@ -21,10 +21,7 @@ export const schemaBodys = {
     name: Joi.string().required(), // okay
   }),
   usernameCheck: Joi.object().keys({
-    username: Joi.string()
-      .required()
-      .max(USERNAME_VALIDATE.max)
-      .min(USERNAME_VALIDATE.min),
+    username: Joi.string().regex(regexUsername)
   }),
   songIdCheck: Joi.object().keys({
     songId: Joi.string().required(), //  need aditional check if the id is youtubeId

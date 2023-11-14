@@ -19,16 +19,19 @@ export const makeUser = async ({
   password,
   username,
   name,
+  avatar
 }: {
   password: string;
   username: string;
   name: string;
+  avatar: string;
 }) => {
   const passwordSecure = hashPassword(password);
   const result = await addUserHelper({
     name,
     password: passwordSecure,
     username,
+    avatar
   });
   if (result.success)
     return {
@@ -48,11 +51,13 @@ export const editUser = async ({
   username,
   id,
   name,
+  avatar
 }: {
   password: string;
   username: string;
   id: number;
   name: string;
+  avatar: string;
 }) => {
   const passwordSecure = hashPassword(password);
 
@@ -60,7 +65,8 @@ export const editUser = async ({
     name,
     password: passwordSecure,
     username,
-    id
+    id,
+    avatar
   });
   if (result.success)
     return {

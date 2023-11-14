@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn ,ManyToOne} from "typeorm";
 import { COMMENT_VALIDATE } from "@/config/helper/constant";
-
+import { Userinfor } from "./user";
+import { PlayList } from "./playlist";
 @Entity()
 export class Comment {
   constructor() {
@@ -14,10 +15,12 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  // @Column()
+  @ManyToOne(() =>PlayList ,playlist => playlist.id )
   playlistId: number;
 
-  @Column()
+  // @Column()
+  @ManyToOne(() =>Userinfor ,user => user.id )
   userId: number;
 
   @Column("varchar", { length: COMMENT_VALIDATE.max })

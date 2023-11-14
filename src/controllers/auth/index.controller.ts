@@ -25,7 +25,7 @@ authControllerSignin.use(async (req: Request, res: Response) => {
       { algorithm: "HS256" }
     );
 
-    return res.status(201).send({ token: userToken });
+    return res.status(201).send({ token: userToken, userId: result.data.id });
   } else return res.status(400).send({ message: result.message });
 });
 

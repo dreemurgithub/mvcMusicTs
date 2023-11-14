@@ -27,9 +27,10 @@ export class PlayList {
   @Column({default: 0})
   view: number;
 
-  @ManyToOne(() =>Userinfor ,user => user.id ,{onDelete: 'CASCADE'})
+  
   // @JoinColumn({name: 'userId',referencedColumnName: 'id'})
-  @Column()
+  // @Column()
+  @ManyToOne(() =>Userinfor ,user => user.id )
   userId: number;
 
   @Column("varchar", { length: PLAYLISTNAME_VALIDATE.max ,array: true})
