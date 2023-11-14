@@ -27,3 +27,5 @@ export const optionsDownload = (id: string) => {
       },
     };
   };
+
+export const youtubePicFromId = (id: string)=> `https://i.ytimg.com/vi/${id}/hq720.jpg?sqp=-oaymwEXCNAFEJQDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAmWNobaFgWajWevnGzK5p1zY8KdQ`

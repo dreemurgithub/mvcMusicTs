@@ -6,7 +6,7 @@ import {
   playlistDeleteController,
   playlistEditController
 } from "@/controllers/playlist/index.controller";
-import { authUpdate, authMutateBody } from "@/middlewares/authentication";
+import {  authMutateBody } from "@/middlewares/authentication";
 const playlistRoute = express.Router({ mergeParams: true });
 import {
   schemaBodys,
@@ -16,7 +16,7 @@ import {
 import { validateBody } from "@/middlewares/validateBody";
 import { validateQuery } from "@/middlewares/validateQuery";
 import { validateParams } from "@/middlewares/validateParams";
-import { validateUsernameExist } from "@/middlewares/custom.middleware";
+import { validateUsernameExist } from "@/middlewares/user.middleware";
 import { validateYoutubeSongList } from "@/validations/youtube.validate";
 import { checkYoutubeIdList } from "@/middlewares/youtube.middleware";
 // playlistRoute.get(

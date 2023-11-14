@@ -240,6 +240,9 @@ paths:
                     name:
                       type: string
                       example: myname
+                    image:
+                      type: string
+                      example: https://upload.wikimedia.org/wikipedia/commons/4/44/Male_and_Female_mallard_ducks.jpg
         required: true
       responses:
         "200":
