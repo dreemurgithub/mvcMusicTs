@@ -6,11 +6,11 @@ import { validateBody } from "@/middlewares/validateBody";
 import { validateUsernameExist } from "@/middlewares/custom.middleware";
 import { userNewController } from "@/controllers/user/index.controller";
 
-authRoute.post("/auth/test", authControllerGet);
+authRoute.post("/api/auth/test", authControllerGet);
 
-authRoute.post("/auth",validateBody(schemaBodys.usernameAndPassword), authControllerSignin);
+authRoute.post("/api/auth",validateBody(schemaBodys.usernameAndPassword), authControllerSignin);
 authRoute.post(
-  "/auth/new",
+  "/api/auth/new",
   validateBody(schemaBodys.nameAndPassword),
   validateBody(schemaBodys.usernameCheck),
   validateUsernameExist,
