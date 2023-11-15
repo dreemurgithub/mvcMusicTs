@@ -15,12 +15,12 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column()
-  @ManyToOne(() =>PlayList ,playlist => playlist.id )
+  // @ManyToOne(() =>PlayList ,playlist => playlist.id )
+  @Column()
   playlistId: number;
 
-  // @Column()
-  @ManyToOne(() =>Userinfor ,user => user.id )
+  // @ManyToOne(() =>Userinfor ,user => user.userId )
+  @Column()
   userId: number;
 
   @Column("varchar", { length: COMMENT_VALIDATE.max })

@@ -3,7 +3,7 @@ import {userNewController,userEditController,} from "@/controllers/user/index.co
 const roomRoute= express.Router({mergeParams: true});
 import { schemaBodys,schemaQuerys } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
-import { validateUsernameExist } from "@/middlewares/user.middleware";
+import { validateUsernameExist } from "@/middlewares/TableExist.middleware";
 
 // should return {success: boolean, data? , message?}
 // roomRoute.post("/api/user", validateBody(schemas.nameAndPassword),validateUsernameExist, userNewController);
