@@ -14,6 +14,17 @@ export const PLAYLISTNAME_VALIDATE = {
     max: 32,
     min:1
 }
+export const PLAYLIST_LIMIT = {
+  TIME: 10,
+  VIEW: 6,
+  USER: 10
+}
+
+export const COMMENT_LIMIT = {
+  TIME: 10,
+  PLAYLIST: 10,
+  USER: 10
+}
 
 const downloadKey = process.env.DOWNLOAD_MUSIC;
 export const optionsDownload = (id: string) => {

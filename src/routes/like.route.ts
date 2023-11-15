@@ -3,7 +3,7 @@ import {userNewController,userEditController} from "@/controllers/user/index.con
 const likeRoute= express.Router({mergeParams: true});
 import { schemaBodys } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
-import { validateUsernameExist } from "@/middlewares/user.middleware";
+import { validateUsernameExist } from "@/middlewares/TableExist.middleware";
 
 
 export default likeRoute;

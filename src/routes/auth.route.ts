@@ -6,7 +6,7 @@ import {
 } from "@/controllers/auth/index.controller";
 import { schemaBodys } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
-import { validateUsernameExist } from "@/middlewares/user.middleware";
+import { validateUsernameExist } from "@/middlewares/TableExist.middleware";
 import { userNewController } from "@/controllers/user/index.controller";
 
 authRoute.post(

@@ -1,5 +1,7 @@
-import { playlistRepository } from "@/config/database/typeorm";
+import { commentlistRepository, likelistRepository, playlistRepository } from "@/config/database/typeorm";
 import { PlayList } from "@/config/database/typeorm/playlist";
+import { PLAYLIST_LIMIT } from "@/config/helper/constant";
+import { readOnePlaylistId } from ".";
 export const addNewPlaylistHelper = async ({
   playlistName,
   songList,
@@ -34,12 +36,13 @@ export const readPlaylistTimeSortHelper = async ({
   sort: "DESC" | "ASC";
   page: number;
 }) => {
-  let limit = 10;
+  let limit = PLAYLIST_LIMIT.TIME;
+
   const dataPromise = playlistRepository.find({
     where: { userId },
     order : {createdAt: sort},
     skip: page*limit - limit,
-    take: limit
+    take: limit,
   }
   );
   const rowCountPromise = playlistRepository.count({
@@ -56,11 +59,14 @@ export const readPlaylistTimeTopSortHelper = async ({
   sort: "DESC" | "ASC";
   page: number;
 }) => {
-  let limit = 6;
+  let limit = PLAYLIST_LIMIT.VIEW;
+//   const query = playlistRepository.createQueryBuilder()
+//   .where("userId = :userId",{userId})
+// .orderBy("createdAt",sort)
   const dataPromise = playlistRepository.find({
     order : {createdAt: sort},
     skip: page*limit - limit,
-    take: limit
+    take: limit,
   }
   );
   const rowCountPromise = playlistRepository.count({ })
@@ -78,12 +84,14 @@ export const readPlaylistUserSortHelper = async ({
   sort: "DESC" | "ASC";
   page: number;
 }) => {
-  let limit = 10;
+  let limit = PLAYLIST_LIMIT.USER;
+  
   const dataPromise = playlistRepository.find({
     where: { userId },
     order : {userId: sort},
     skip: page*limit - limit,
-    take: limit
+    take: limit,
+      
   }
   );
   const rowCountPromise = playlistRepository.count({
@@ -101,10 +109,13 @@ export const readPlaylistUserTopSortHelper = async ({
   page: number;
 }) => {
   let limit = 6;
+  
   const dataPromise = playlistRepository.find({
+    relations: ['userinfor'],
     order : {userId: sort},
     skip: page*limit - limit,
-    take: limit
+    take: limit,
+    
   }
   );
   const rowCountPromise = playlistRepository.count({ })
@@ -113,11 +124,22 @@ export const readPlaylistUserTopSortHelper = async ({
   return {data,rowCount};
 };
 
+export const readOnePlaylistIdhelper = async(id: number)=>{
+  const playlist = await playlistRepository.findOne({where:{id}})
+  return playlist
+}
+
+
+// done reading 
+
 export const deletePlaylistIdHelper = async ({userId,id}: {userId: number,id: number})=>{
   try {
-    const result = await playlistRepository.delete({ id,userId });
-    if(result.affected) return { success: true, message: "Successfully delete playlist" };
-    else return { success: false, message: "UnAuthorize" }
+    await likelistRepository.delete({playlistId: id})
+    await commentlistRepository.delete({ playlistId: id });
+    await playlistRepository.delete({ id,userId });
+    // if(resultPlaylist.affected) 
+    return { success: true, message: "Successfully delete playlist" };
+    // else return { success: false, message: "UnAuthorize" }
   } catch(err) {
     if(err)console.log(err)
     return { success: false, message: "UnAuthorize" };

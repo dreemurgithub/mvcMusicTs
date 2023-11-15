@@ -5,6 +5,8 @@ import {
   editUserHelper,
   readUserIdHelper,
 } from "./helper";
+import { deletePlaylistIdHelper } from "../playlist/helper";
+import { playlistRepository } from "@/config/database/typeorm";
 
 export const readUserId = async (id: number) => {
   const data = await readUserIdHelper(id);
@@ -88,6 +90,11 @@ export const editUser = async ({
 };
 
 export const deleteUser = async (id: number) => {
+  const allPlaylist = await playlistRepository.find({where: {userId: id} })
+  for(let i =0;i<allPlaylist.length;i++){
+    const idPlay = allPlaylist[i].id
+    await deletePlaylistIdHelper(idPlay)
+  }
   const result = await deleteUserHelper(id);
   return result;
 };

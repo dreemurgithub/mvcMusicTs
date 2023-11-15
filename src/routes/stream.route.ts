@@ -11,7 +11,7 @@ import {
 // should return {success: boolean, data? , message?}
 // streamRoute.get("/api/stream", priviledgeMiddleware, streamController);
 streamRoute.get(
-  "/api/stream/:songId",
+  "/api/streams/:songId",
   checkYoutubeId,
   streamController
 );
