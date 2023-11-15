@@ -49,7 +49,7 @@ components:
         username:
           type: string
           example: 1scdecc
-          description: From 5 to 32 characters
+          description: From 5 to 32 characters, no white space
         password:
           type: string
           pattern: "/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9#@$%]{5,32}$/"
@@ -64,11 +64,15 @@ components:
         username:
           type: string
           example: 1scdecc
-          description: From 5 to 32 characters
+          description: From 5 to 32 characters, no white space
         name:
           type: string
-          example: myname
+          example: my name
           description: From 5 to 32 characters
+        image: 
+          type: string
+          example: https://upload.wikimedia.org/wikipedia/commons/4/44/Male_and_Female_mallard_ducks.jpg
+          description: Valid url to image
     Playlist:
       type: object
       properties:

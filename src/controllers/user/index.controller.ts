@@ -16,18 +16,18 @@ userGetControllerId.use(async (req: Request, res: Response) => {
 });
 
 userNewController.use(async (req: Request, res: Response) => {
-  const { username, name, password } = req.body;
-  const result = await makeUser({ name, password, username });
+  const { username, name, password,image } = req.body;
+  const result = await makeUser({ name, password, username,avatar: image });
   if (result.success) return res.status(201).send(result.data);
   else return res.status(401).send({ message: result.message });
 });
 
 userEditController.use(async (req: Request, res: Response) => {
-  const { username, name, password, userId } = req.body;
+  const { username, name, password, userId, image } = req.body;
   const tokenAuthen = req.headers.authorization;
   // allow authenticate user to make playlist, stream music, search music
 
-  const result = await editUser({ name, password, username, id: userId });
+  const result = await editUser({ name, password, username, id: userId, avatar: image });
   if (result.success) return res.status(201).send(result.data);
   else return res.status(401).send({ message: result.message });
 });
