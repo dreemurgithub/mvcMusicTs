@@ -3,7 +3,8 @@ import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const checkPath = path.join(__dirname, `../../../data/_k3y2tVWK74`);
+export const checkPath = path.join(__dirname, `../../../data`);
+if(!fs.existsSync(checkPath)) fs.mkdirSync(checkPath)
 export const allMusicId = () => {
   const file = path.join(__dirname, `../../../data`);
   const fileList = fs.readdirSync(file);

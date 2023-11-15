@@ -1,19 +1,15 @@
 import express, { Request, Response, Application } from "express";
 import {
   encryptAuth,
-  checkAllowUpdateAuth,
   userIdFromAuth,
 } from "@/validations/JWT.validate";
 
-import jwt from "jsonwebtoken";
-
 import dotenv from "dotenv";
-import { string } from "joi";
 dotenv.config();
 const secretKey = `${process.env.PASSWORD_KEY}`;
 
 export const requireAuth = express.Router({ mergeParams: true });
-export const authUpdate = express.Router({ mergeParams: true });
+// export const authUpdate = express.Router({ mergeParams: true });
 export const authMutateBody = express.Router({ mergeParams: true });
 
 requireAuth.use(async (req: Request, res: Response, next) => {
@@ -25,15 +21,14 @@ requireAuth.use(async (req: Request, res: Response, next) => {
   else return res.status(401).send({ message: result.message });
 });
 
-// allow [put to user, put to playlist(make later), put to comment] by req.session.userId === user.id
-// allow [delete comment] by req.session.userId === user.id
-authUpdate.use(async (req: Request, res: Response, next) => {
-  const userIdRequest = req.query.userId as string;
-  const tokenAuthen = req.headers.authorization;
-  const result = checkAllowUpdateAuth({ token: tokenAuthen, userIdRequest });
-  if (result.success) return next();
-  else return res.status(401).send({ message: result.message });
-});
+
+// authUpdate.use(async (req: Request, res: Response, next) => {
+//   const userIdRequest = req.query.userId as string;
+//   const tokenAuthen = req.headers.authorization;
+//   const result = checkAllowUpdateAuth({ token: tokenAuthen, userIdRequest });
+//   if (result.success) return next();
+//   else return res.status(401).send({ message: result.message });
+// });
 
 authMutateBody.use(async (req: Request, res: Response, next) => {
   const tokenAuthen = req.headers.authorization;

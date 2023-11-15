@@ -3,23 +3,29 @@ import {
   addUserHelper,
   deleteUserHelper,
   editUserHelper,
-  readUserIdHelper
+  readUserIdHelper,
 } from "./helper";
 
-export const readUserId =async (id:number) => {
-  const data = await readUserIdHelper(id)
-  if(data) return {
-    success: true,
-    data: {  id: data.id,username: data.username,name: data.name}
-  } 
-  else return {success: false, message:"No user with this id"}
-}
+export const readUserId = async (id: number) => {
+  const data = await readUserIdHelper(id);
+  if (data)
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        username: data.username,
+        name: data.name,
+        image: data.avatar,
+      },
+    };
+  else return { success: false, message: "No user with this id" };
+};
 
 export const makeUser = async ({
   password,
   username,
   name,
-  avatar
+  avatar,
 }: {
   password: string;
   username: string;
@@ -31,7 +37,7 @@ export const makeUser = async ({
     name,
     password: passwordSecure,
     username,
-    avatar
+    avatar,
   });
   if (result.success)
     return {
@@ -51,7 +57,7 @@ export const editUser = async ({
   username,
   id,
   name,
-  avatar
+  avatar,
 }: {
   password: string;
   username: string;
@@ -66,7 +72,7 @@ export const editUser = async ({
     password: passwordSecure,
     username,
     id,
-    avatar
+    avatar,
   });
   if (result.success)
     return {
