@@ -4,9 +4,9 @@ import {
   playlistNewController,
   playlistUserControllerReadTime,
   playlistDeleteController,
-  playlistEditController
+  playlistEditController,
 } from "@/controllers/playlist/index.controller";
-import {  authMutateBody } from "@/middlewares/authentication";
+import { authMutateBody } from "@/middlewares/authentication";
 const playlistRoute = express.Router({ mergeParams: true });
 import {
   schemaBodys,
@@ -16,14 +16,15 @@ import {
 import { validateBody } from "@/middlewares/validateBody";
 import { validateQuery } from "@/middlewares/validateQuery";
 import { validateParams } from "@/middlewares/validateParams";
-import { validateUsernameExist } from "@/middlewares/TableExist.middleware";
+import { validateUsernameExist } from "@/middlewares/RecordExist.middleware";
 import { validateYoutubeSongList } from "@/validations/youtube.validate";
 import { checkYoutubeIdList } from "@/middlewares/youtube.middleware";
-// playlistRoute.get(
-//   "/playlist",
-//   validateQuery(schemaQuerys.playlistIdCheck),
-//   playlistGetController
-// );
+
+playlistRoute.get(
+  "/playlists/:id",
+  validateParams(schemaParams.idCheck),
+  playlistGetController
+);
 
 // playlistRoute.get( // use this
 //   "/api/playlist/:userId/view",
@@ -32,6 +33,7 @@ import { checkYoutubeIdList } from "@/middlewares/youtube.middleware";
 //   validateQuery(schemaQuerys.sortCheck),
 //   playlistGetController
 // );
+
 playlistRoute.get(
   "/api/playlists/:userId/time",
   validateParams(schemaParams.userIdCheck),

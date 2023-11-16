@@ -201,7 +201,16 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/CommentInfor"
+            allOf: 
+              - $ref: "#/components/schemas/CommentInfor"
+              - type: object
+                properties:
+                  createdAt: 
+                    type: string
+                    example: 2023-11-09 16:22:06.733
+                  updatedAt: 
+                    type: string
+                    example: 2023-11-09 16:22:06.733
     Like:
       type: object
       properties:

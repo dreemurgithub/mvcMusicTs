@@ -15,7 +15,7 @@ export const readUserId = async (id: number) => {
       success: true,
       data: {
         id: data.id,
-        username: data.username,
+        // username: data.username,
         name: data.name,
         image: data.avatar,
       },
@@ -90,10 +90,10 @@ export const editUser = async ({
 };
 
 export const deleteUser = async (id: number) => {
-  const allPlaylist = await playlistRepository.find({where: {userId: id} })
-  for(let i =0;i<allPlaylist.length;i++){
-    const idPlay = allPlaylist[i].id
-    await deletePlaylistIdHelper(idPlay)
+  const allPlaylist = await playlistRepository.find({ where: { userId: id } });
+  for (let i = 0; i < allPlaylist.length; i++) {
+    const idPlay = allPlaylist[i].id;
+    await deletePlaylistIdHelper(idPlay);
   }
   const result = await deleteUserHelper(id);
   return result;
