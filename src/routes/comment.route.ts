@@ -17,7 +17,7 @@ import {
   schemaQuerys,
 } from "@/validations/validateGeneral";
 import { authMutateBody } from "@/middlewares/authentication";
-import { validatePlaylistExist } from "@/middlewares/TableExist.middleware";
+import { validatePlaylistExist } from "@/middlewares/RecordExist.middleware";
 
 commentRoute.get(
   "/api/comments/user/:userId/playlist/:playlistId/time",
@@ -45,7 +45,18 @@ commentRoute.post(
   authMutateBody,
   makeCommentController
 );
-commentRoute.put("/api/comments", editCommentController);
-commentRoute.delete("/api/comments/:id", deleteCommentController);
+commentRoute.put(
+  "/api/comments",
+  validateBody(schemaBodys.playlistIdCheck),
+  validateBody(schemaBodys.contentCheck),
+  validateBody(schemaBodys.idCheck),
+  authMutateBody,
+  editCommentController
+);
+commentRoute.delete(
+  "/api/comments/:id",
+  validateParams(schemaParams.idCheck),
+  deleteCommentController
+);
 
 export default commentRoute;

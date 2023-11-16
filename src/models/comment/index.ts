@@ -3,6 +3,8 @@ import {
   readCommentFromPlaylist_UserSortHelper,
   readCommentFromUser_PlaylistSortHelper,
   makeCommentHelper,
+  deleteCommentHelper,
+  updateCommentHelper,
 } from "./helper";
 export const readCommentFromUserAndPlaylist_TimeSort = async ({
   userId,
@@ -44,7 +46,7 @@ export const readCommentFromPlaylist_UserSort = async ({
     page,
   });
   if (result.data.length)
-    return { success: true, data:  result, message: "No comment found" };
+    return { success: true, data: result, message: "No comment found" };
 
   return { success: false, data: null, message: "No comment found" };
 };
@@ -64,7 +66,7 @@ export const readCommentFromUser_PlaylistSort = async ({
     page,
   });
   if (result.data.length)
-    return { success: true, data:  result, message: "No comment found" };
+    return { success: true, data: result, message: "No comment found" };
   return {
     success: true,
     data: { page, data: result, rowCount: result.rowCount },
@@ -83,8 +85,8 @@ export const makeComment = async ({
   content: string;
 }) => {
   try {
-    const data = await makeCommentHelper({userId,content,playlistId})
-    return  { success: true, data, message: "" };
+    const data = await makeCommentHelper({ userId, content, playlistId });
+    return { success: true, data, message: "" };
   } catch {
     return { success: false, data: null, message: "No comment found" };
   }
@@ -104,12 +106,33 @@ export const EditComment = async ({
   return { success: false, data: null, message: "No comment found" };
 };
 
-export const deletComment = async ({
+export const deleteComment = async ({
   userId,
   id,
 }: {
   userId: number;
   id: number;
 }) => {
-  return { success: false, data: null, message: "No comment found" };
+  const result = await deleteCommentHelper({ userId, id });
+  return result;
+  // if(result.success) return { success: false, data: null, message: "No comment found" };
+};
+export const UpdateComment = async ({
+  userId,
+  id,
+  content,
+  playlistId,
+}: {
+  userId: number;
+  id: number;
+  content: string;
+  playlistId: number;
+}) => {
+  const result = await updateCommentHelper({
+    userId,
+    id,
+    content,
+    playlistId,
+  });
+  return result;
 };

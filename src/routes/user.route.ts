@@ -10,7 +10,7 @@ const userRoute = express.Router({ mergeParams: true });
 import { schemaBodys, schemaParams } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
 import { validateParams } from "@/middlewares/validateParams";
-import { validateUsernameExist } from "@/middlewares/TableExist.middleware";
+import { validateUsernameExist } from "@/middlewares/RecordExist.middleware";
 
 userRoute.get(
   "/api/users/:id",
