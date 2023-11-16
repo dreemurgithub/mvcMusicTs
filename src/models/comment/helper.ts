@@ -11,13 +11,12 @@ export const makeCommentHelper = async ({
   content: string;
   playlistId: number;
 }) => {
-    const newComment = new Comment();
-    newComment.content = content;
-    newComment.userId = userId;
-    newComment.playlistId = playlistId;
-    await commentlistRepository.save(newComment);
-    return newComment;
-  
+  const newComment = new Comment();
+  newComment.content = content;
+  newComment.userId = userId;
+  newComment.playlistId = playlistId;
+  await commentlistRepository.save(newComment);
+  return newComment;
 };
 export const readCommentFromUserAndPlaylist_TimeSortHelper = async ({
   userId,
@@ -145,7 +144,7 @@ export const readCommentFromUser_PlaylistSortHelper = async ({
   });
   const countPromise = commentlistRepository.count();
   const [data, rowCount] = await Promise.all([dataPromise, countPromise]);
-  
+
   // const dataPromise = commentlistRepository.find({ // work
   //   order: { createdAt: sort },
   //   skip: page * limit - limit,
@@ -155,3 +154,41 @@ export const readCommentFromUser_PlaylistSortHelper = async ({
 
   return { data, rowCount, page };
 };
+// put and delete
+
+export const deleteCommentHelper = async ({
+  userId,
+  id,
+}: {
+  userId: number;
+  id: number;
+}) => {
+  try {
+    const result = await commentlistRepository.delete({ id, userId });
+    return { success: true, message: "Successfully delete playlist" };
+  } catch (err) {
+    if (err) console.log(err);
+    return { success: false, message: "UnAuthorize" };
+  }
+};
+
+export const updateCommentHelper = async({
+  userId,
+  id,
+  content,
+  playlistId,
+}: {
+  userId: number;
+  id: number;
+  content: string;
+  playlistId: number
+})=>{
+  // const result = await commentlistRepository.delete({ id, userId });
+  // return { success: true, message: "Successfully delete playlist" };
+  const updateComment = await commentlistRepository.findOne({where: {id, userId,playlistId}})
+  if(!updateComment) return { success: false, message: "Not authorize to update this comment" };
+  updateComment.content = content;
+  await commentlistRepository.save(updateComment)
+  return { success: true, message: "Successfully edit the comment" }
+
+}

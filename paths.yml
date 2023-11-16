@@ -474,7 +474,7 @@ paths:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
   /api/playlists/{id}:
-    delete:
+    get:
       tags:
         - Playlist
       security:
@@ -489,6 +489,36 @@ paths:
           schema:
             type: integer
           example: 1
+      responses:
+        "200":
+          description: Playlist with id
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/PlaylistInfor"
+        "404":
+          description: Dont have permission
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/MessageBad"
+    delete:
+      tags:
+        - Playlist
+      security:
+        - OAuth2: [AuthToken]
+      summary: Delete your playlist
+      description: "Delete playlist"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "0 is from all user, 1+ is from some user"
+          schema:
+            type: integer
+          example: 3
       responses:
         "200":
           description: Delete
@@ -571,7 +601,7 @@ paths:
         - Comment
       security:
         - OAuth2: [AuthToken]
-      summary: Read comment from user and playlist, sort by playlist 
+      summary: Read comment from user and playlist, sort by playlist
       parameters:
         - in: path
           name: userId
@@ -733,8 +763,17 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              $ref: "#/components/schemas/CommentInfor"
+              allOf:
+                - $ref: "#/components/schemas/Comment"
+                - type: object
+                  properties:
+                    createdAt:
+                      type: string
+                      format: date
+                      example: 2023-11-09 16:22:06.733
+                    updatedAt:
+                      type: string
+                      example: 2023-11-09 16:22:06.733
         required: true
       responses:
         "200":
@@ -798,7 +837,7 @@ paths:
         - Like
       security:
         - OAuth2: [AuthToken]
-      summary: Like from users to a playlist
+      summary: Like from users to a playlist, sort by user
       parameters:
         - in: path
           name: playlistId
@@ -824,7 +863,7 @@ paths:
             example: 1
       responses:
         "200":
-          description: Read like of a playlist from users
+          description: Read like of a playlist from users, sort by user
           content:
             application/json:
               schema:
@@ -840,7 +879,16 @@ paths:
                     type: array
                     items:
                       type: object
-                      $ref: "#/components/schemas/UserAll"
+                      properties:
+                        id:
+                          type: number
+                          example: 1
+                        name:
+                          type: string
+                          example: my name
+                        avatar:
+                          type: string
+                          example: https://upload.wikimedia.org/wikipedia/commons/4/44/Male_and_Female_mallard_ducks.jpg
         "204":
           description: No like
           content:
@@ -894,7 +942,27 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: "#/components/schemas/PlaylistInforReturn"
+                properties:
+                  rowCount:
+                    type: integer
+                    example: 20
+                  page:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          example: 1
+                        name:
+                          type: string
+                          example: my name
+                        image:
+                          type: string
+                          example: https://upload.wikimedia.org/wikipedia/commons/4/44/Male_and_Female_mallard_ducks.jpg
         "204":
           description: No like
           content:

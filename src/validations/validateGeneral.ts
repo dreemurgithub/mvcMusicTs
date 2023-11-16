@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { regexPassword, regexUrlImage ,regexUsername} from "./regex.validate";
+import { regexPassword, regexUrlImage, regexUsername } from "./regex.validate";
 import { USERNAME_VALIDATE, COMMENT_VALIDATE } from "@/config/helper/constant";
 
 export const schemaBodys = {
@@ -21,7 +21,7 @@ export const schemaBodys = {
     name: Joi.string().required(), // okay
   }),
   usernameCheck: Joi.object().keys({
-    username: Joi.string().regex(regexUsername)
+    username: Joi.string().regex(regexUsername),
   }),
   songIdCheck: Joi.object().keys({
     songId: Joi.string().required(), //  need aditional check if the id is youtubeId
@@ -44,7 +44,7 @@ export const schemaBodys = {
   }),
   playlistIdCheck: Joi.object().keys({
     playlistId: Joi.number().required(), //  need aditional check if the id is youtubeId
-  })
+  }),
 };
 
 export const schemaQuerys = {
@@ -63,16 +63,15 @@ export const schemaQuerys = {
   sortCheck: Joi.object().keys({
     sort: Joi.string().required().valid("ASC", "DESC"), //  need aditional check if the id is youtubeId
   }),
-  
 };
 
 export const schemaParams = {
   userIdCheck: Joi.object().keys({
     userId: Joi.number().required(), //  need aditional check if the id is youtubeId
   }),
-  playlistCheck: Joi.object().keys({
-    playlistId: Joi.number().required(), //  need aditional check if the id is youtubeId
-  }),
+  // playlistCheck: Joi.object().keys({
+  //   playlistId: Joi.number().required(), //  need aditional check if the id is youtubeId
+  // }),
   playlistIdCheck: Joi.object().keys({
     playlistId: Joi.number().required(), //  need aditional check if the id is youtubeId
   }),

@@ -17,7 +17,7 @@ musicSearchController.use(async (req: Request, res: Response) => {
   if (check) {
     const result = await musicYoutubeSearch({ search, page: parseInt(page) });
     if (result.success) return res.status(200).send(result.data);
-    else return res.status(204).send({ message: result.message });
+    else return res.status(204).send({});
   }
   res.status(400).send({ message: "Something wrong with searching music" });
 });
