@@ -3,10 +3,10 @@ import { musicYoutubeSearch } from "@/models/musicInfor";
 import { downloadSong } from "@/models/musicInfor";
 // import { downloadMusicCheck } from "@/models/musicInfor/download";
 
-export const musicInforController = express.Router({ mergeParams: true });
+export const musicSearchController = express.Router({ mergeParams: true });
 export const musicDownloadController = express.Router({ mergeParams: true });
 
-musicInforController.use(async (req: Request, res: Response) => {
+musicSearchController.use(async (req: Request, res: Response) => {
   const { search, page } = req.query;
   const check =
     search &&

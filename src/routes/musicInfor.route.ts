@@ -1,7 +1,7 @@
 import express, { Request, Response, Application } from "express";
 const musicInforRoute = express.Router({ mergeParams: true });
 import {
-  musicInforController,
+  musicSearchController,
   musicDownloadController,
 } from "@/controllers/musicInfor/index.controller";
 import { checkYoutubeId } from "@/middlewares/youtube.middleware";
@@ -10,17 +10,17 @@ import { validateQuery } from "@/middlewares/validateQuery";
 import { validateParams } from "@/middlewares/validateParams";
 // should return {success: boolean, data? , message?}
 musicInforRoute.get(
-  "/api/music",
+  "/api/musics",
   validateQuery(schemaQuerys.pageCheck),
   validateQuery(schemaQuerys.searchCheck),
-  musicInforController
+  musicSearchController
 );
 musicInforRoute.get(
-  "/api/music/:songId",
+  "/api/musics/:songId",
   checkYoutubeId,
   musicDownloadController
 );
-// musicInforRoute.put("/api/music" , musicInforController);
-// musicInforRoute.delete("/api/music" , musicInforController);
+// musicInforRoute.put("/api/music" , musicSearchController);
+// musicInforRoute.delete("/api/music" , musicSearchController);
 
 export default musicInforRoute;

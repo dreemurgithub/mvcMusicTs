@@ -16,7 +16,7 @@ import {
 import { validateBody } from "@/middlewares/validateBody";
 import { validateQuery } from "@/middlewares/validateQuery";
 import { validateParams } from "@/middlewares/validateParams";
-import { validateUsernameExist } from "@/middlewares/user.middleware";
+import { validateUsernameExist } from "@/middlewares/TableExist.middleware";
 import { validateYoutubeSongList } from "@/validations/youtube.validate";
 import { checkYoutubeIdList } from "@/middlewares/youtube.middleware";
 // playlistRoute.get(
@@ -33,7 +33,7 @@ import { checkYoutubeIdList } from "@/middlewares/youtube.middleware";
 //   playlistGetController
 // );
 playlistRoute.get(
-  "/api/playlist/:userId/time",
+  "/api/playlists/:userId/time",
   validateParams(schemaParams.userIdCheck),
   validateQuery(schemaQuerys.pageCheck),
   validateQuery(schemaQuerys.sortCheck),
@@ -41,12 +41,13 @@ playlistRoute.get(
 );
 
 // playlistRoute.get( // use this
-//   "/api/playlist/:userId/user",
+//   "/api/playlists/:userId/user",
 //   validateParams(schemaParams.userIdCheck),
 //   validateQuery(schemaQuerys.pageCheck),
 //   validateQuery(schemaQuerys.sortCheck),
-//   playlistGetController
+//   playlistUserControllerReadTime
 // );
+
 // playlistRoute.get( // use this
 //   "/api/playlist/:userId/view",
 //   validateParams(schemaParams.userIdCheck),
@@ -56,7 +57,7 @@ playlistRoute.get(
 // );
 
 playlistRoute.post(
-  "/api/playlist",
+  "/api/playlists",
   validateBody(schemaBodys.playlistNameCheck),
   validateBody(schemaBodys.imageCheck),
   validateBody(schemaBodys.songListCheck),
@@ -66,7 +67,7 @@ playlistRoute.post(
 );
 
 playlistRoute.put(
-  "/api/playlist",
+  "/api/playlists",
   validateBody(schemaBodys.playlistNameCheck),
   validateBody(schemaBodys.imageCheck),
   validateBody(schemaBodys.songListCheck),
@@ -76,7 +77,7 @@ playlistRoute.put(
   playlistEditController
 );
 playlistRoute.delete(
-  "/api/playlist/:id",
+  "/api/playlists/:id",
   validateParams(schemaParams.idCheck),
   playlistDeleteController
 );

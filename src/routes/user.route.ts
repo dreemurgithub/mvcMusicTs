@@ -10,21 +10,21 @@ const userRoute = express.Router({ mergeParams: true });
 import { schemaBodys, schemaParams } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
 import { validateParams } from "@/middlewares/validateParams";
-import { validateUsernameExist } from "@/middlewares/user.middleware";
+import { validateUsernameExist } from "@/middlewares/TableExist.middleware";
 
 userRoute.get(
-  "/api/user/:id",
+  "/api/users/:id",
   validateParams(schemaParams.idCheck),
   userGetControllerId
 );
 
 userRoute.put(
-  "/api/user",
+  "/api/users",
   validateBody(schemaBodys.nameAndPassword),
   validateBody(schemaBodys.imageCheck),
   authMutateBody,
   userEditController
 );
-userRoute.delete("/api/user", userDeleteController);
+userRoute.delete("/api/users", userDeleteController);
 
 export default userRoute;

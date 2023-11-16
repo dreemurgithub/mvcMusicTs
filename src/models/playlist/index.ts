@@ -6,7 +6,8 @@ import {
   readPlaylistTimeTopSortHelper,
   readPlaylistUserSortHelper,
   readPlaylistUserTopSortHelper,
-  updatePlaylistIdHelper
+  updatePlaylistIdHelper,
+  readOnePlaylistIdhelper
 } from "./helper";
 export const playListMaking = async ({
   playlistName,
@@ -60,6 +61,14 @@ export const readAllPlaylistTimeTop = async ({
   if (playlist.rowCount) return { success: true, data: playlist };
   return { success: false, message: "This user don't have any/more playlist" };
 };
+
+export const readOnePlaylistId = async (id: number) => {
+  const playlist = await readOnePlaylistIdhelper(id)
+  if(playlist && true) return {success: true , data: playlist}
+  else return {success: false,message: "No playlist"}
+}
+
+// done read
 
 export const deletePlaylistId =async ({userId,id}: {userId: number,id: number}) => {
   const result = await deletePlaylistIdHelper({userId,id})

@@ -54,7 +54,7 @@ paths:
     get:
       tags:
         - Music
-      summary: Download Music
+      summary: Download Music + Get song infors
       security:
         - OAuth2: [AuthToken]
       parameters:
@@ -64,7 +64,7 @@ paths:
           description: Valid youtube Id
           schema:
             type: string
-          example: A_HekkBbd1M
+          example: oKOtzIo-uYw
       responses:
         "200":
           description: After this api send response, /api/stream/{songId} is available to stream
@@ -504,13 +504,13 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/comments/{userId}/{playlist}/time?sort={sort}&page={page}:
+  /api/comments/{userId}/{playlistId}/time?sort={sort}&page={page}:
     get:
       tags:
         - Comment
       security:
         - OAuth2: [AuthToken]
-      summary: Read comment from user and playlist
+      summary: Read comment from user and playlist, sort by time
       parameters:
         - in: path
           name: userId
@@ -565,13 +565,72 @@ paths:
                 properties:
                   message:
                     type: string
-  /api/comments/{userId}/{playlist}/playlist?sort={sort}&page={page}:
+  /api/comments/{userId}/{playlistId}/playlist?sort={sort}&page={page}:
     get:
       tags:
         - Comment
       security:
         - OAuth2: [AuthToken]
-      summary: Read comment from user and playlist
+      summary: Read comment from user and playlist, sort by playlist 
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: "0 is from all user/playlist, 1+ is from some user/playlist"
+          schema:
+            type: integer
+          example: 1
+        - in: query
+          name: sort
+          required: true
+          description: DESC or ASC to sort the comment
+          schema:
+            type: string
+            pattern: DESC|ASC
+          example: ASC
+        - in: query
+          name: page
+          require: true
+          description: Pagination
+          schema:
+            type: integer
+            example: 1
+        - in: path
+          name: playlistId
+          required: true
+          description: "0 is from all user/playlist, 1+ is from some user/playlist"
+          schema:
+            type: integer
+          example: 3
+      responses:
+        "200":
+          description: Read comment list from user and playlist
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/CommentInforReturn"
+        "204":
+          description: No comment
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/MessageBad"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/MessageBad"
+  /api/comments/{userId}/{playlistId}/user?sort={sort}&page={page}:
+    get:
+      tags:
+        - Comment
+      security:
+        - OAuth2: [AuthToken]
+      summary: Read comment from user and playlist, sort by user
       parameters:
         - in: path
           name: userId

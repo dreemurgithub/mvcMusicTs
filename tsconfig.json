@@ -15,11 +15,14 @@
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "strictPropertyInitialization": false // for typeorm entity
   },
   "ts-node": {
     "esm": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  
+
 }

@@ -36,11 +36,15 @@ export const schemaBodys = {
       .required(), //  need aditional check if the id is youtubeId
   }),
   imageCheck: Joi.object().keys({
-    image: Joi.string().required().regex(regexUrlImage), //  need aditional check if the id is youtubeId
+    image: Joi.string().required(), //  need aditional check if the id is youtubeId
+    // image: Joi.string().required().regex(regexUrlImage), //  need aditional check if the id is youtubeId
   }),
   playlistNameCheck: Joi.object().keys({
     playlistName: Joi.string().min(1).required(), //  need aditional check if the id is youtubeId
   }),
+  playlistIdCheck: Joi.object().keys({
+    playlistId: Joi.number().required(), //  need aditional check if the id is youtubeId
+  })
 };
 
 export const schemaQuerys = {
@@ -59,6 +63,7 @@ export const schemaQuerys = {
   sortCheck: Joi.object().keys({
     sort: Joi.string().required().valid("ASC", "DESC"), //  need aditional check if the id is youtubeId
   }),
+  
 };
 
 export const schemaParams = {
@@ -69,7 +74,7 @@ export const schemaParams = {
     playlistId: Joi.number().required(), //  need aditional check if the id is youtubeId
   }),
   playlistIdCheck: Joi.object().keys({
-    playlistid: Joi.number().required(), //  need aditional check if the id is youtubeId
+    playlistId: Joi.number().required(), //  need aditional check if the id is youtubeId
   }),
   idCheck: Joi.object().keys({
     id: Joi.number().required(), //  need aditional check if the id is youtubeId
