@@ -8,6 +8,7 @@ import { musicFromYoutubeId } from "./helper";
 import NodeID3 from "node-id3";
 import { ytCacheRepository } from "@/config/database/typeorm";
 import { youtubePicFromId } from "@/config/helper/constant";
+import { error } from "console";
 
 dotenv.config();
 
@@ -46,6 +47,8 @@ export const downloadMusic = async (id: string) => {
       return { success: true, data: dataReturn };
     }
   }
+  fs.mkdirSync(folderSave); // make folder and save file to
+
 
   const infor = await serVerFetch(id); // if there is no file => cache only have id => start download
   if (infor.success && infor.link) {
@@ -54,31 +57,35 @@ export const downloadMusic = async (id: string) => {
     });
 
     const fileBuffer = Buffer.from(response.data); // buffer
-    fs.mkdirSync(folderSave); // make folder and save file to
-    fs.writeFile(`${folderSave}/${infor.title}.mp3`, fileBuffer, (err: any) => {
-      if (err) console.log(err);
-    });
+    const fileBufferSave = new Uint8Array(response.data); // buffer save
+    fs.writeFile(`${folderSave}/${infor.title.replaceAll('/','_')}.mp3`, fileBufferSave, (err: any) => {
 
-    if (!dataReturn) return { success: false, data: "", message: "" }; // the validate already cache, always have a youtubeid
-    if (dataReturn.genre) return { success: true, data: dataReturn };
-    NodeID3.read(fileBuffer, async (err: any, tags: any) => {
       if (err) {
         console.log(err);
-        return { success: false, data: "" };
+        return { success: false, data: "", message: JSON.stringify(err) };
       }
-      // save infor from buffer header to database
-      dataReturn.title = tags.title ? tags.title : "";
-      dataReturn.duration = tags.duration ? tags.duration : "";
-      dataReturn.artist = tags.artist ? tags.artist : "";
-      dataReturn.description = tags.description ? tags.description : "";
-      dataReturn.year = parseInt(tags.year) ? parseInt(tags.year) : 0;
-      dataReturn.genre = tags.genre ? tags.genre : "None";
-      dataReturn.image = youtubePicFromId(id);
-      await ytCacheRepository.save(dataReturn);
-      return { success: true, data: dataReturn };
-    });
+      NodeID3.read(fileBuffer, async (err: any, tags: any) => {
+        if (err) {
+          console.log(err);
+          return { success: false, data: "", message: JSON.stringify(err) };
+        }
+        if (!dataReturn) return { success: false, data: "", message: "" }; // the validate already cache, always have a youtubeid
+        if (dataReturn.genre) return { success: true, data: dataReturn };
+        // save infor from buffer header to database
+        dataReturn.title = tags.title ? tags.title : "";
+        dataReturn.duration = tags.duration ? tags.duration : "";
+        dataReturn.artist = tags.artist ? tags.artist : "";
+        dataReturn.description = tags.description ? tags.description : "";
+        dataReturn.year = parseInt(tags.year) ? parseInt(tags.year) : 0;
+        dataReturn.genre = tags.genre ? tags.genre : "None";
+        dataReturn.image = youtubePicFromId(id);
+        await ytCacheRepository.save(dataReturn);
+        return { success: true, data: dataReturn };
+      });
 
-    return { success: true, dataReturn };
+    });
+    // const a = dataReturn
+    // return { success: true,data: dataReturn };
   } else
     return {
       success: false,
