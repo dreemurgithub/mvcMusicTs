@@ -18,23 +18,24 @@ export const readLikeController_Playlist = express.Router({
 export const deleteLikeController = express.Router({ mergeParams: true });
 
 readLikeController_User.use(async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.userId) ? parseInt(req.params.userId) : 0;
-  const sort = req.query.sort as "DESC" | "ASC";
-  const page = parseInt(req.query.page as string);
-
-  const result = await readUserLikePlaylist({ userId, page, sort });
-  if (result.success) return res.status(200).send(result.data);
-  else return res.status(400).send({ message: result.message });
-});
-
-readLikeController_Playlist.use(async (req: Request, res: Response) => {
   const playlistId = parseInt(req.params.playlistId)
     ? parseInt(req.params.playlistId)
     : 0;
   const sort = req.query.sort as "DESC" | "ASC";
   const page = parseInt(req.query.page as string);
+  
+  const result = await readUserLikePlaylist({ playlistId, page, sort });
+  if (result.success) return res.status(200).send(result.data);
+  else return res.status(400).send({ message: result.message });
+});
 
-  const result = await readPlaylistFromUserLike({ playlistId, page, sort });
+readLikeController_Playlist.use(async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.userId) ? parseInt(req.params.userId) : 0;
+  
+  const sort = req.query.sort as "DESC" | "ASC";
+  const page = parseInt(req.query.page as string);
+  
+  const result = await readPlaylistFromUserLike({ userId, page, sort });
   if (result.success) return res.status(200).send(result.data);
   else return res.status(400).send({ message: result.message });
 });

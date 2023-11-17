@@ -19,7 +19,7 @@ import { validateQuery } from "@/middlewares/validateQuery";
 import { authMutateBody } from "@/middlewares/authentication";
 
 likeRoute.get(
-  "/api/likes/:playlistId/playlist",
+  "/api/likes/:playlistId/getplaylist",
   validateParams(schemaParams.playlistIdCheck),
   validateQuery(schemaQuerys.pageCheck),
   validateQuery(schemaQuerys.sortCheck),
@@ -27,7 +27,7 @@ likeRoute.get(
 );
 
 likeRoute.get(
-  "/api/likes/:userId/user",
+  "/api/likes/:userId/getuser",
   validateParams(schemaParams.userIdCheck),
   validateQuery(schemaQuerys.pageCheck),
   validateQuery(schemaQuerys.sortCheck),

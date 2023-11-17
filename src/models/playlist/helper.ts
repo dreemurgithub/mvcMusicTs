@@ -7,6 +7,9 @@ import { PlayList } from "@/config/database/typeorm/playlist";
 import { PLAYLIST_LIMIT } from "@/config/helper/constant";
 import { readOnePlaylistId } from ".";
 import { deleteCommentHelper } from "../comment/helper";
+import { removeLikeHelper } from "../like/helper";
+import { validateLikeExist } from "@/middlewares/RecordExist.middleware";
+import { commentExist, likeExist } from "@/validations/RecordExist.validate";
 export const addNewPlaylistHelper = async ({
   playlistName,
   songList,
@@ -137,17 +140,15 @@ export const deletePlaylistIdHelper = async ({
   userId: number;
   id: number;
 }) => {
-  try {
-    await deleteCommentHelper({ id, userId });
-    await likeListRepository.delete({ playlistId: id });
-    await playlistRepository.delete({ id, userId });
-    // if(resultPlaylist.affected)
-    return { success: true, message: "Successfully delete playlist" };
-    // else return { success: false, message: "UnAuthorize" }
-  } catch (err) {
-    if (err) console.log(err);
-    return { success: false, message: "UnAuthorize" };
-  }
+  const checkCommentExist = await commentExist({userId})
+  if(checkCommentExist) await commentlistRepository.delete({userId})
+  const checkLikeExist = await likeExist({ playlistId: id, userId });
+  if (checkLikeExist)
+    await likeListRepository.delete({ playlistId: id, userId });
+  await playlistRepository.delete({ id, userId });
+  // if(resultPlaylist.affected)
+  return { success: true, message: "Successfully delete playlist" };
+  // else return { success: false, message: "UnAuthorize" }
 };
 export const updatePlaylistIdHelper = async ({
   id,

@@ -17,7 +17,7 @@ export const makeNewLike = async ({
   return { success: false, data: null, message: "Something wrong" };
 };
 
-export const readUserLikePlaylist = async ({
+export const readPlaylistFromUserLike = async ({
   userId,
   page,
   sort,
@@ -37,14 +37,14 @@ export const readUserLikePlaylist = async ({
     });
     return {
       success: true,
-      data: result.data,
-      page: result.page,
+      data: {data: result.data,page: result.page,rowCount : result.rowCount},
+      
     };
   }
   return { success: false, data: null, message: "No one like yet" };
 };
 
-export const readPlaylistFromUserLike = async ({
+export const readUserLikePlaylist = async ({
   playlistId,
   page,
   sort,

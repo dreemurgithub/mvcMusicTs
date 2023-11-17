@@ -35,6 +35,6 @@ export const validateLikeExist = async (
 ) => {
   // userId and playListId
   const checkExist = await likeExist(req.body);
-  if (!checkExist) return res.status(204).send({});
+  if (checkExist) return res.status(204).send({});
   return next();
 };

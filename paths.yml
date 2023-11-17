@@ -479,8 +479,8 @@ paths:
         - Playlist
       security:
         - OAuth2: [AuthToken]
-      summary: Delete your playlist
-      description: "Delete playlist"
+      summary: playlist infor
+      description: playlist infor
       parameters:
         - in: path
           name: id
@@ -831,7 +831,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/likes/{playlistId}/playlist?sort={sort}&page={page}:
+  /api/likes/{playlistId}/getplaylist?sort={sort}&page={page}:
     get:
       tags:
         - Like
@@ -905,7 +905,7 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/likes/{userId}/user?sort={sort}&page={page}:
+  /api/likes/{userId}/getuser?sort={sort}&page={page}:
     get:
       tags:
         - Like
@@ -977,32 +977,23 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/MessageBad"
-  /api/likes:
-    security:
-      - OAuth2: [AuthToken]
-    requestBody:
-      description: like a playlist
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              playlistId:
-                type: integer
+  /api/likes:   
     post:
       security:
         - OAuth2: [AuthToken]
       tags:
         - Like
       summary: Like a playlist
-      parameters:
-        - in: path
-          name: playlistId
-          required: true
-          description: "0 is from all user, 1+ is from some user"
-          schema:
-            type: integer
-          example: 3
+      requestBody:
+        description: like a playlist
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playlistId:
+                  type: integer
+                  example: 1
       responses:
         "201":
           description: Like a playlist
@@ -1025,7 +1016,7 @@ paths:
       - in: query
         name: likeId
         required: true
-        description: "If comment is not from user, will fail"
+        description: "If like is not from user, will fail"
         schema:
           type: integer
         example: 1

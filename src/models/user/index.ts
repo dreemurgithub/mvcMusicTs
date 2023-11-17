@@ -84,7 +84,7 @@ export const editUser = async ({
     };
   return {
     success: false,
-    message: "Something wrong",
+    message: result.message,
     data: null,
   };
 };
@@ -93,7 +93,7 @@ export const deleteUser = async (id: number) => {
   const allPlaylist = await playlistRepository.find({ where: { userId: id } });
   for (let i = 0; i < allPlaylist.length; i++) {
     const idPlay = allPlaylist[i].id;
-    await deletePlaylistIdHelper(idPlay);
+    await deletePlaylistIdHelper({id: idPlay, userId: id});
   }
   const result = await deleteUserHelper(id);
   return result;

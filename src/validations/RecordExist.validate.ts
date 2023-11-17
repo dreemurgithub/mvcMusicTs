@@ -1,6 +1,9 @@
 import { readOnePlaylistId } from "@/models/playlist";
 import { checkUsernameExist } from "@/models/user/helper";
-import { likeListRepository } from "@/config/database/typeorm";
+import {
+  commentlistRepository,
+  likeListRepository,
+} from "@/config/database/typeorm";
 
 export const usernameExist = async (username: string) => {
   const check = await checkUsernameExist(username);
@@ -19,8 +22,17 @@ export const likeExist = async ({
   userId: number;
   playlistId: number;
 }) => {
-  const check = await likeListRepository.findOne({
-    where: { userId, playlistId },
-  });
-  return check && true;
+  const check = await likeListRepository.find({where:{userId,playlistId}})
+  return check.length && true;
+};
+
+export const commentExist = async ({
+  userId,
+  id,
+}: {
+  userId: number;
+  id?: number ;
+}) => {
+  const check =id? await commentlistRepository.find({ where: { userId, id } }) : await commentlistRepository.find({ where: { userId} });
+  return check.length && true;
 };

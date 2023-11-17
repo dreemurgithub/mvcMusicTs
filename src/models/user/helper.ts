@@ -64,12 +64,12 @@ export const editUserHelper = async ({
   avatar: string;
 }) => {
   const updateUser = await userRepository.findOne({ where: { username, id } });
-  if (!updateUser) return { success: false, message: "Bad Request" };
+  if (!updateUser) return { success: false, message: "Unauthorize to update/Wrong username" };
   updateUser.password = password;
   updateUser.name = name;
   updateUser.avatar = avatar;
   await userRepository.save(updateUser);
-  if (!updateUser) return { success: false, message: "Bad Request" };
+  if (!updateUser) return { success: false, message: "Unauthorize to update/Wrong username" };
   return { success: true, data: updateUser };
 };
 

@@ -100,6 +100,10 @@ export const removeLikeHelper = async ({
   userId: number;
   id: number;
 }) => {
-  const result = await likeListRepository.delete({ userId, id });
-  return result;
+  const find = await likeListRepository.find({ where: { userId } });
+  const check = find.filter((like) => like.id === id);
+  if (check.length) {
+    const result = await likeListRepository.delete({ userId, id });
+    return result;
+  } else return {affected: 0}
 };

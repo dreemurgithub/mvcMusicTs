@@ -21,7 +21,7 @@ import { validateYoutubeSongList } from "@/validations/youtube.validate";
 import { checkYoutubeIdList } from "@/middlewares/youtube.middleware";
 
 playlistRoute.get(
-  "/playlists/:id",
+  "/api/playlists/:id",
   validateParams(schemaParams.idCheck),
   playlistGetController
 );

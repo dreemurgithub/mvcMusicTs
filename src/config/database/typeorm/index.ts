@@ -25,5 +25,5 @@ export const dataSource = new DataSource({
 export const userRepository = dataSource.getRepository("Userinfor");
 export const playlistRepository = dataSource.getRepository("play_list");
 export const commentlistRepository = dataSource.getRepository("comment");
-export const likeListRepository = dataSource.getRepository("like");
+export const likeListRepository = dataSource.getRepository("like_playlist");
 export const ytCacheRepository = dataSource.getRepository("youtube_cache");
