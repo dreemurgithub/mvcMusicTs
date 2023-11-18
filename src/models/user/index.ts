@@ -3,22 +3,43 @@ import {
   addUserHelper,
   deleteUserHelper,
   editUserHelper,
-  readUserHelper,
+  readUserIdHelper,
 } from "./helper";
+import { deletePlaylistIdHelper } from "../playlist/helper";
+import { playlistRepository } from "@/config/database/typeorm";
+
+export const readUserId = async (id: number) => {
+  const data = await readUserIdHelper(id);
+  if (data)
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        // username: data.username,
+        name: data.name,
+        image: data.avatar,
+      },
+    };
+  else return { success: false, message: "No user with this id" };
+};
+
 export const makeUser = async ({
   password,
   username,
   name,
+  avatar,
 }: {
   password: string;
   username: string;
   name: string;
+  avatar: string;
 }) => {
   const passwordSecure = hashPassword(password);
   const result = await addUserHelper({
     name,
     password: passwordSecure,
     username,
+    avatar,
   });
   if (result.success)
     return {
@@ -38,11 +59,13 @@ export const editUser = async ({
   username,
   id,
   name,
+  avatar,
 }: {
   password: string;
   username: string;
   id: number;
   name: string;
+  avatar: string;
 }) => {
   const passwordSecure = hashPassword(password);
 
@@ -50,7 +73,8 @@ export const editUser = async ({
     name,
     password: passwordSecure,
     username,
-    id
+    id,
+    avatar,
   });
   if (result.success)
     return {
@@ -66,6 +90,11 @@ export const editUser = async ({
 };
 
 export const deleteUser = async (id: number) => {
+  const allPlaylist = await playlistRepository.find({ where: { userId: id } });
+  for (let i = 0; i < allPlaylist.length; i++) {
+    const idPlay = allPlaylist[i].id;
+    await deletePlaylistIdHelper(idPlay);
+  }
   const result = await deleteUserHelper(id);
   return result;
 };

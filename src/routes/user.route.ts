@@ -2,28 +2,29 @@ import express, { Request, Response, Application } from "express";
 import {
   userNewController,
   userEditController,
-  getController,
+  userDeleteController,
+  userGetControllerId,
 } from "@/controllers/user/index.controller";
-import { authUpdate } from "@/middlewares/authentication";
-const userRoute: Application = express();
-import { schemaBodys } from "@/validations/validateGeneral";
+import { authMutateBody } from "@/middlewares/authentication";
+const userRoute = express.Router({ mergeParams: true });
+import { schemaBodys, schemaParams } from "@/validations/validateGeneral";
 import { validateBody } from "@/middlewares/validateBody";
-import { validateUsernameExist } from "@/middlewares/custom.middleware";
+import { validateParams } from "@/middlewares/validateParams";
+import { validateUsernameExist } from "@/middlewares/RecordExist.middleware";
 
-// should return {success: boolean, data? , message?}
-// userRoute.post(
-//   "/user",
-//   validateBody(schemaBodys.nameAndPassword),
-//   validateBody(schemaBodys.usernameCheck),
-//   validateUsernameExist,
-//   userNewController
-// );
+userRoute.get(
+  "/api/users/:id",
+  validateParams(schemaParams.idCheck),
+  userGetControllerId
+);
+
 userRoute.put(
-  "/user",
+  "/api/users",
   validateBody(schemaBodys.nameAndPassword),
-  authUpdate,
+  validateBody(schemaBodys.imageCheck),
+  authMutateBody,
   userEditController
 );
-userRoute.delete("/user", authUpdate, userNewController);
+userRoute.delete("/api/users", userDeleteController);
 
 export default userRoute;

@@ -7,8 +7,9 @@ import commentRoute from "./comment.route";
 import playlistRoute from "./playlist.route";
 import likeRoute from "./like.route";
 import { requireAuth } from "@/middlewares/authentication";
+import { SwaggerRoute } from "./swagger.route";
 import roomRoute from "./room.route";
-const expressRoute: Application = express();
+const expressRoute= express.Router({mergeParams: true});
 
 // expressRoute.use(authRoute);
 // expressRoute.use(userRoute);
@@ -28,7 +29,7 @@ const defaultRoutes = [
   roomRoute
 ];
 
-const noAuthRoutes = [authRoute];
+const noAuthRoutes = [authRoute,SwaggerRoute];
 noAuthRoutes.forEach((route) =>  expressRoute.use(route))
 
   defaultRoutes.forEach((route) => {

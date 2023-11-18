@@ -1,14 +1,50 @@
 import express, { Request, Response, Application } from "express";
-import {userNewController,userEditController,getController} from "@/controllers/user/index.controller";
-import { authUpdate} from "@/middlewares/authentication";
-const likeRoute: Application = express();
-import { schemaBodys } from "@/validations/validateGeneral";
+import {
+  makeLikeController,
+  deleteLikeController,
+  readLikeController_Playlist,
+  readLikeController_User,
+} from "@/controllers/like";
+import { validateLikeExist } from "@/middlewares/RecordExist.middleware";
+const likeRoute = express.Router({ mergeParams: true });
 import { validateBody } from "@/middlewares/validateBody";
-import { validateUsernameExist } from "@/middlewares/custom.middleware";
+import { validateUsernameExist } from "@/middlewares/RecordExist.middleware";
+import { validateParams } from "@/middlewares/validateParams";
+import {
+  schemaParams,
+  schemaBodys,
+  schemaQuerys,
+} from "@/validations/validateGeneral";
+import { validateQuery } from "@/middlewares/validateQuery";
+import { authMutateBody } from "@/middlewares/authentication";
 
-// should return {success: boolean, data? , message?}
-// likeRoute.post("/user", validateBody(schemaBodys.nameAndPassword),validateUsernameExist, userNewController);
-// likeRoute.put("/user", validateBody(schemaBodys.nameAndPassword),authUpdate, userEditController);
-// likeRoute.delete("/user",authUpdate,userNewController);
+likeRoute.get(
+  "/api/likes/:playlistId/playlist",
+  validateParams(schemaParams.playlistIdCheck),
+  validateQuery(schemaQuerys.pageCheck),
+  validateQuery(schemaQuerys.sortCheck),
+  readLikeController_Playlist
+);
+
+likeRoute.get(
+  "/api/likes/:userId/user",
+  validateParams(schemaParams.userIdCheck),
+  validateQuery(schemaQuerys.pageCheck),
+  validateQuery(schemaQuerys.sortCheck),
+  readLikeController_User
+);
+
+likeRoute.post(
+  "/api/likes",
+  authMutateBody,
+  validateLikeExist,
+  makeLikeController
+);
+
+likeRoute.delete(
+  "/api/likes/:id",
+  validateParams(schemaParams.idCheck),
+  deleteLikeController
+);
 
 export default likeRoute;

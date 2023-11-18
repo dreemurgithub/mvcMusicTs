@@ -4,7 +4,7 @@ dotenv.config();
 const localDev = process.env.ENVIROMENT === "DEV";
 import express, { Application } from "express";
 
-const configBasic: Application = express();
+const configBasic= express.Router({mergeParams: true});
 configBasic.use(express.json());
 configBasic.use(cookieParser());
 export default configBasic;

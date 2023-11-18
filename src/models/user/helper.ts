@@ -1,6 +1,11 @@
 import { userRepository } from "@/config/database/typeorm";
 import { Userinfor } from "@/config/database/typeorm/user";
 
+export const readUserIdHelper = async (id: number)=>{
+  const user = await userRepository.findOne({where: {id}}) 
+  return user;
+}
+
 export const readUserHelper = async ({
   username,
   password,
@@ -19,24 +24,29 @@ export const addUserHelper = async ({
   username,
   password,
   name,
+  avatar
 }: {
   username: string;
   password: string;
   name: string;
+  avatar: string;
 }) => {
-  const checkUsername = await userRepository.findOne({ where: { username } });
-  if (checkUsername) return { success: false, message: "Username exist" };
-  const newUser = new Userinfor();
+  
+  try {const newUser = new Userinfor();
   newUser.username = username;
   newUser.password = password;
   newUser.name = name;
+  newUser.avatar = avatar;
   await userRepository.save(newUser);
-  return { success: true, data: newUser };
+  return { success: true, data: newUser };}
+  catch (err){
+    console.log(err)
+    return { success: false, data: null }
+  }
 };
 
 export const checkUsernameExist = async (username: string) => {
-  const allUser =  await userRepository.find()
-  const userExist = await userRepository.findOne({where: {username}})
+  const userExist = await userRepository.findOne({ where: { username } });
   return userExist && true;
 };
 
@@ -44,17 +54,20 @@ export const editUserHelper = async ({
   username,
   password,
   name,
-  id
+  id,
+  avatar
 }: {
   username: string;
   password: string;
   name: string;
-  id: number
+  id: number;
+  avatar: string;
 }) => {
-  const updateUser = await userRepository.findOne({ where: { username , id } });
+  const updateUser = await userRepository.findOne({ where: { username, id } });
   if (!updateUser) return { success: false, message: "Bad Request" };
   updateUser.password = password;
   updateUser.name = name;
+  updateUser.avatar = avatar;
   await userRepository.save(updateUser);
   if (!updateUser) return { success: false, message: "Bad Request" };
   return { success: true, data: updateUser };
@@ -62,9 +75,10 @@ export const editUserHelper = async ({
 
 export const deleteUserHelper = async (id: number) => {
   try {
-    await userRepository.delete({ where: { id } });
+    const result = await userRepository.delete({ id });
     return { success: true, message: "Successfully delete" };
-  } catch {
-    return { success: false, message: "No record" };
+  } catch(err) {
+    if(err)console.log(err)
+    return { success: false, message: "UnAuthorize" };
   }
 };
